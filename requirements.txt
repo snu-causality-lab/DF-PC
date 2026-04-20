@@ -11,3 +11,7 @@ seaborn~=0.13.2
 statsmodels~=0.14.1
 setuptools~=69.1.0
 filelock~=3.13.1
+pgmpy~=0.1.25
+scikit-learn~=1.4.1
+# tabulate is sometimes useful for printing results, but not strictly required by core scripts
+# tabulate~=0.9.0

@@ -2,3 +2,9 @@
 results
 data/Ground_truth
 data/Sampled_datasets
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.DS_Store
+.venv
+*.lock
