@@ -91,7 +91,7 @@ class PCStableZTracker(PCStable):
         return np.array(adj_mat), sepsets
 
 def run_single_rep(setup_name, n, d, rep):
-    seed = 400 + rep
+    seed = 300 + rep
     random.seed(seed)
     np.random.seed(seed)
 
@@ -102,6 +102,14 @@ def run_single_rep(setup_name, n, d, rep):
     dummy_data = pd.DataFrame(np.zeros((10, n)))
 
     tester = OracleCITester(G)
+    
+    # Warm-up OS OpenBLAS threads to guarantee completely fair profiling
+    tester.ci_test(dummy_data, 0, 1, [])
+    tester.n_actual_calls = 0
+    tester.total_test_time = 0.0
+    if hasattr(tester, 'history'):
+        tester.history.clear()
+        
     runner = PCStableZTracker(alpha=0.01, ci_tester=tester)
     
     runner.run(dummy_data)
@@ -135,7 +143,7 @@ def main():
     raw_path = output_dir / "experiment_4_raw.csv"
 
     # Setup A: Node Scaling Impact
-    NODES_A = [10, 20, 30]
+    NODES_A = [10, 20, 30, 40]
     DENSITY_A = [3]
     tasks_a = [('SetupA_Nodes', n, d, rep) for n, d, rep in product(NODES_A, DENSITY_A, range(REPS))]
 
@@ -147,7 +155,8 @@ def main():
     tasks = tasks_a + tasks_b
     print(f"Total trials to run: {len(tasks)}")
     
-    results = Parallel(n_jobs=24, verbose=10)(
+    n_cores = int(os.environ.get("SLURM_CPUS_PER_TASK", os.cpu_count()))
+    results = Parallel(n_jobs=n_cores, verbose=10)(
         delayed(run_single_rep)(setup, n, d, rep) 
         for setup, n, d, rep in tasks
     )

@@ -118,9 +118,9 @@ class PartialCorrelation(CITester):
 
     def _compute_p_value(self, data, X, Y, cond_set):
         if data is not None and data is not self.data:
-            np_data = data.to_numpy() if isinstance(data, pd.DataFrame) else data
-            temp_cit = CIT(np_data, "fisherz")
-            pval = temp_cit(X, Y, cond_set)
+            # THIS IS NOT ALLOWED in rebuttal experiments to ensure fairness
+            raise ValueError(f"FAIRNESS VIOLATION: Heavy branch hit! Data identity mismatch. data={id(data)}, self.data={id(self.data)}")
+            # np_data = data.to_numpy() if isinstance(data, pd.DataFrame) else data
         else:
             if self.cl_cit is None:
                 raise ValueError("PartialCorrelation: data not initialized and no data passed to ci_test")

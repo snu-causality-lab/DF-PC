@@ -97,6 +97,15 @@ def run_single_rep(setup_name, n, m, d, g_type, d_type, rep, algo_mode):
     tester._set_data(data)
     runner = PCStableRebuttal(alpha=0.01, ci_tester=tester, algo_mode=algo_mode)
     
+    # Warm-up OS OpenBLAS threads to guarantee completely fair profiling
+    tester.ci_test(data, 0, 1, [])
+    tester.n_actual_calls = 0
+    tester.total_test_time = 0.0
+    if hasattr(tester, 'history'):
+        tester.history.clear()
+    # Recreate CIT backend to flush causal-learn's internal pvalue_cache
+    tester._set_data(data)
+        
     start_t = time.time()
     adj_est, _ = runner.run(data)
     total_t = time.time() - start_t
@@ -165,7 +174,8 @@ def main():
     tasks = tasks_a + tasks_b
     print(f"Total trials to run: {len(tasks)}")
     
-    results = Parallel(n_jobs=24, verbose=10)(
+    n_cores = int(os.environ.get("SLURM_CPUS_PER_TASK", os.cpu_count()))
+    results = Parallel(n_jobs=n_cores, verbose=10)(
         delayed(run_single_rep)(setup, n, m, d, gt, dt, rep, algo_mode) 
         for setup, n, m, d, gt, dt, rep, algo_mode in tasks
     )

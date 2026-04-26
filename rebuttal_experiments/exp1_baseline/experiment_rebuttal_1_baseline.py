@@ -93,7 +93,7 @@ def calculate_ci(data):
     return 1.96 * (np.std(data, ddof=1) / np.sqrt(len(data)))
 
 def run_single_rep(n, m, d, g_type, d_type, rep, algo_mode):
-    seed = 100 + rep
+    seed = 300 + rep
     random.seed(seed)
     np.random.seed(seed)
 
@@ -117,6 +117,15 @@ def run_single_rep(n, m, d, g_type, d_type, rep, algo_mode):
     tester._set_data(data)
     runner = PCStableRebuttal(alpha=0.01, ci_tester=tester, algo_mode=algo_mode)
     
+    # Warm-up OS OpenBLAS threads to guarantee completely fair profiling
+    tester.ci_test(data, 0, 1, [])
+    tester.n_actual_calls = 0
+    tester.total_test_time = 0.0
+    if hasattr(tester, 'history'):
+        tester.history.clear()
+    # Recreate CIT backend to flush causal-learn's internal pvalue_cache
+    tester._set_data(data)
+        
     start_t = time.time()
     adj_est, _ = runner.run(data)
     total_t = time.time() - start_t
@@ -160,9 +169,9 @@ def run_single_rep(n, m, d, g_type, d_type, rep, algo_mode):
 
 def main():
     REPS = 30
-    NODES = [30]
+    NODES = [20]
     SAMPLES = [5000]
-    AVG_DEGREES = [2, 4]
+    AVG_DEGREES = [4]
     GRAPH_TYPES = ['er', 'sf']
     DATA_TYPES = ['linear_sem', 'discrete']
     ALGO_MODES = ["Standard PC", "PC with deduce-dep", "DF-PC (Pure)"]
@@ -172,14 +181,23 @@ def main():
     csv_path = output_dir / "experiment_1_summary.csv"
     raw_path = output_dir / "experiment_1_raw.csv"
 
-    tasks = list(product(NODES, SAMPLES, AVG_DEGREES, GRAPH_TYPES, DATA_TYPES, ALGO_MODES, range(REPS)))
-    print(f"Total trials to run: {len(tasks)}")
+    all_tasks = list(product(NODES, SAMPLES, AVG_DEGREES, GRAPH_TYPES, DATA_TYPES, ALGO_MODES, range(REPS)))
+    print(f"Total trials to run: {len(all_tasks)}")
     
-    # Execute in parallel
-    results = Parallel(n_jobs=24, verbose=10)(
-        delayed(run_single_rep)(n, m, d, gt, dt, rep, algo_mode) 
-        for n, m, d, gt, dt, algo_mode, rep in tasks
-    )
+    n_cores = int(os.environ.get("SLURM_CPUS_PER_TASK", os.cpu_count()))
+    
+    results = []
+    # Isolated Batching Strategy: Separate Linear and Discrete to avoid BLAS/FPU contention
+    for dt, algo in product(DATA_TYPES, ALGO_MODES):
+        sub_tasks = [t for t in all_tasks if t[4] == dt and t[5] == algo]
+        if not sub_tasks:
+            continue
+        print(f"Running Batch: Data={dt}, Algo={algo} ({len(sub_tasks)} trials)")
+        batch_results = Parallel(n_jobs=n_cores, verbose=10)(
+            delayed(run_single_rep)(n, m, d, gt, dt_in, rep, algo_in) 
+            for n, m, d, gt, dt_in, algo_in, rep in sub_tasks
+        )
+        results.extend(batch_results)
     
     df_raw = pd.DataFrame([r for r in results if r is not None])
     df_raw.to_csv(raw_path, index=False)
