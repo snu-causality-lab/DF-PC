@@ -84,7 +84,8 @@ def run_single_rep(setup_name, n, m, d, g_type, d_type, rep, algo_mode):
     if g_type == 'er':
         G = Graph.erdos_renyi_DAG(n, int(n * d / 2), max_in_degree=10)
     else:
-        G = Graph.scale_free_DAG(n, int(max(1, d / 2)), max_in_degree=10)
+        # Direct mapping for SF to ensure distinct topologies per density level
+        G = Graph.scale_free_DAG(n, d, max_in_degree=10)
     
     true_adj = nx.to_numpy_array(G)
     
@@ -165,7 +166,6 @@ def main():
     tasks_a = [('SetupA_NodeScaling', n, m, d, gt, dt, rep, algo)
                for n, m, d, gt, dt, algo, rep in product(NODES_A, SAMPLES, DENSITY_A, GRAPH_TYPES, DATA_TYPES, ALGO_MODES, range(REPS))]
 
-    # Setup B: Density Scaling (Fix Nodes=30)
     NODES_B = [30]
     DENSITY_B = [2, 3, 4, 5, 6]
     tasks_b = [('SetupB_DensityScaling', n, m, d, gt, dt, rep, algo)
@@ -175,12 +175,21 @@ def main():
     print(f"Total trials to run: {len(tasks)}")
     
     n_cores = int(os.environ.get("SLURM_CPUS_PER_TASK", os.cpu_count()))
-    results = Parallel(n_jobs=n_cores, verbose=10)(
-        delayed(run_single_rep)(setup, n, m, d, gt, dt, rep, algo_mode) 
-        for setup, n, m, d, gt, dt, rep, algo_mode in tasks
-    )
     
-    df_raw = pd.DataFrame([r for r in results if r is not None])
+    all_results = []
+    
+    for gt, algo in product(GRAPH_TYPES, ALGO_MODES):
+        print(f"\n>>> Running Batch: Graph={gt}, Algo={algo}...")
+        
+        batch_tasks = [t for t in tasks if t[4] == gt and t[7] == algo]
+        
+        results = Parallel(n_jobs=n_cores, verbose=10)(
+            delayed(run_single_rep)(setup, n, m, d, gt, dt, rep, algo_mode) 
+            for setup, n, m, d, gt, dt, rep, algo_mode in batch_tasks
+        )
+        all_results.extend(results)
+    
+    df_raw = pd.DataFrame([r for r in all_results if r is not None])
     df_raw.to_csv(raw_path, index=False)
 
     group_cols = ["Setup", "Nodes", "Samples", "Deg", "Graph", "Data", "Algo"]

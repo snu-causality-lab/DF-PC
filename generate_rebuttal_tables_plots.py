@@ -109,7 +109,7 @@ if os.path.exists(f"{folder}/experiment_3_summary.csv") and os.path.exists(f"{fo
         if i > 0:
             try: ax.legend_.remove()
             except: pass
-    fig.suptitle("Exp 3 Setup A: Runtime vs Nodes\n[Samples=5000, Degree=3, Data=LinearSEM]", y=1.03)
+    fig.suptitle("Exp 3: Runtime across Nodes\n[Samples=5000, Degree=3, Data=LinearSEM]", y=1.03)
     fig.tight_layout()
     fig.savefig(f"{folder}/plots/exp3_runtime_nodes.png", dpi=300, bbox_inches='tight')
     plt.close('all')
@@ -128,7 +128,7 @@ if os.path.exists(f"{folder}/experiment_3_summary.csv") and os.path.exists(f"{fo
         if i > 0:
             try: ax.legend_.remove()
             except: pass
-    fig.suptitle("Exp 3 Setup B: Runtime vs Density\n[Nodes=30, Samples=5000, Data=LinearSEM]", y=1.03)
+    fig.suptitle("Exp 3: Runtime across Density\n[Nodes=30, Samples=5000, Data=LinearSEM]", y=1.03)
     fig.tight_layout()
     fig.savefig(f"{folder}/plots/exp3_runtime_density.png", dpi=300, bbox_inches='tight')
     plt.close('all')
@@ -150,7 +150,7 @@ if os.path.exists(f"{folder}/experiment_4_summary.csv") and os.path.exists(f"{fo
         for i, (ax, val) in enumerate(zip(axes_flat, facet_vals)):
             sub = df_f[df_f[facet_col] == val]
             sub_m = sub.melt(id_vars=['Z_Size'], value_vars=['Requested_CITs', 'Performed_CITs', 'Bypassed_CITs'], var_name='Type', value_name='Count')
-            sub_m['Type'] = sub_m['Type'].map({'Requested_CITs': 'Requested', 'Performed_CITs': 'Performed', 'Bypassed_CITs': 'Bypassed'})
+            sub_m['Type'] = sub_m['Type'].map({'Requested_CITs': 'Requested CITs', 'Performed_CITs': 'Performed CITs', 'Bypassed_CITs': 'Bypassed CITs'})
             sns.barplot(data=sub_m, x='Z_Size', y='Count', hue='Type', capsize=.05, ax=ax)
             ax.set_title(f"{facet_col}={val}")
             ax.set_xlabel("Conditioning Set Size (|Z|)")
@@ -172,14 +172,14 @@ if os.path.exists(f"{folder}/experiment_4_summary.csv") and os.path.exists(f"{fo
     df4_A = df4_raw[df4_raw['Setup'] == 'SetupA_Nodes']
     node_vals = sorted(df4_A['Nodes'].unique())
     plot_exp4_faceted(df4_A, 'Nodes', node_vals,
-                      "Exp 4 Setup A: CITs by |Z| across Node Counts\n[Degree=3, Topology=ER, Oracle CIT]",
+                      "Exp 4: CIT counts across Nodes\n[Degree=3, Topology=ER, Oracle CIT]",
                       "exp4_save_CIT_nodes.png")
 
     # Setup B: Density Scaling — one subplot per Degree (2x2)
     df4_B = df4_raw[df4_raw['Setup'] == 'SetupB_Density']
     deg_vals = sorted(df4_B['Deg'].unique())
     plot_exp4_faceted(df4_B, 'Deg', deg_vals,
-                      "Exp 4 Setup B: CITs by |Z| across Density Levels\n[Nodes=20, Topology=ER, Oracle CIT]",
+                      "Exp 4: CIT counts across Density\n[Nodes=20, Topology=ER, Oracle CIT]",
                       "exp4_save_CIT_density.png")
 
 # Exp 5
@@ -192,7 +192,7 @@ if os.path.exists(f"{folder}/experiment_5_summary.csv") and os.path.exists(f"{fo
 
     plt.figure(figsize=(10, 6))
     sns.lineplot(data=df5_raw, x='ErrorRate', y='F1', hue='Algo', marker='o', err_style="bars")
-    plt.title("Exp 5: Robustness — F1 vs Oracle CIT Error Rate\n[Nodes=20, Degree=3, Topology=ER, Oracle d-sep]\nNoise: low-order CITs (|Z|≤1) flipped with prob p via deterministic blake2b hash")
+    plt.title("Exp 5: Robustness — F1 Score across Low-Order CIT Errors (|Z| <= 1)\n[Nodes=20, Degree=3, Topology=ER, Oracle CIT]")
     plt.xlabel("Error Rate (p)")
     plt.ylabel("F1 Score")
     plt.tight_layout()
