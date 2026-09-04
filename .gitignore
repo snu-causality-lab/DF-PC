@@ -7,4 +7,9 @@ __pycache__/
 .pytest_cache/
 .DS_Store
 .venv
+venv/
 *.lock
+scratch/
+joblib_bias_test.py
+verify_cold_start.py
+_UAI_2026__*

@@ -1,6 +1,6 @@
 # Don’t Test What You Can Deduce: Causal Discovery with Logical Inference
 
-This repository contains the implementation for the paper **"Don’t Test What You Can Deduce: Causal Discovery with Logical Inference"** (Submitted to UAI 2026).
+This repository contains the implementation for the paper **"Don’t Test What You Can Deduce: Causal Discovery with Logical Inference"** (Accepted to UAI 2026).
 
 The codebase is refactored for simplicity and reproducibility.
 

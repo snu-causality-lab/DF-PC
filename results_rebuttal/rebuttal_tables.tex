@@ -1,48 +1,48 @@
-\subsection*{Experiment 1: Baseline Comparison}
+\subsection*{Experiment 7: Baseline Comparison}
 \begin{tabular}{llrrr}
 \toprule
-            &            &  F1\_mean &  SHD\_mean &  Bypassed\_CITs\_mean \\
+          &            &  F1\_mean &  SHD\_mean &  Bypassed\_CITs\_mean \\
 Algo & Data &          &           &                     \\
 \midrule
 DF-PC & discrete &    0.549 &    23.550 &             315.150 \\
-            & linear\_sem &    0.700 &    19.183 &            2396.883 \\
+          & linear\_sem &    0.700 &    19.183 &            2396.883 \\
 PC with deduce-dep & discrete &    0.480 &    25.550 &             185.133 \\
-            & linear\_sem &    0.701 &    19.083 &            1286.950 \\
-Standard PC & discrete &    0.455 &    26.450 &             192.550 \\
-            & linear\_sem &    0.701 &    19.100 &            1311.900 \\
+          & linear\_sem &    0.701 &    19.083 &            1286.950 \\
+PC-stable & discrete &    0.455 &    26.450 &             192.550 \\
+          & linear\_sem &    0.701 &    19.100 &            1311.900 \\
 \bottomrule
 \end{tabular}
 
 
-\subsection*{Experiment 2: High Density (=6)}
+\subsection*{Experiment 8: High Density (=6)}
 \begin{tabular}{llrrr}
 \toprule
-            &            &  F1\_mean &  SHD\_mean &  Bypassed\_CITs\_mean \\
+          &            &  F1\_mean &  SHD\_mean &  Bypassed\_CITs\_mean \\
 Algo & Data &          &           &                     \\
 \midrule
 DF-PC & discrete &    0.416 &    62.617 &             717.250 \\
-            & linear\_sem &    0.499 &    61.183 &            7661.800 \\
-Standard PC & discrete &    0.319 &    66.767 &             439.517 \\
-            & linear\_sem &    0.498 &    61.150 &            5269.383 \\
+          & linear\_sem &    0.499 &    61.183 &            7661.800 \\
+PC-stable & discrete &    0.319 &    66.767 &             439.517 \\
+          & linear\_sem &    0.498 &    61.150 &            5269.383 \\
 \bottomrule
 \end{tabular}
 
 
-\subsection*{Experiment 3: Runtime Scaling}
+\subsection*{Experiment 9: Runtime Scaling}
 \begin{tabular}{llrrr}
 \toprule
-                      &             &  Time\_Total\_mean &  Bypassed\_CITs\_mean &  F1\_mean \\
+                      &           &  Time\_Total\_mean &  Bypassed\_CITs\_mean &  F1\_mean \\
 Setup & Algo &                  &                     &          \\
 \midrule
 SetupA\_NodeScaling & DF-PC &            2.082 &            5627.317 &    0.726 \\
-                      & Standard PC &            2.583 &            3030.117 &    0.729 \\
+                      & PC-stable &            2.583 &            3030.117 &    0.729 \\
 SetupB\_DensityScaling & DF-PC &            2.982 &            6665.570 &    0.582 \\
-                      & Standard PC &            3.451 &            4449.280 &    0.583 \\
+                      & PC-stable &            3.451 &            4449.280 &    0.583 \\
 \bottomrule
 \end{tabular}
 
 
-\subsection*{Experiment 4: Oracle Saved CITs by |Z|}
+\subsection*{Experiment 10: Oracle Saved CITs by |Z|}
 \begin{tabular}{llrrr}
 \toprule
                &    &  Requested\_mean &  Performed\_mean &  Bypassed\_mean \\
@@ -110,22 +110,22 @@ SetupB\_Density & 0  &         380.000 &         191.000 &        189.000 \\
 \end{tabular}
 
 
-\subsection*{Experiment 5: Robustness against Low-order CIT Error}
+\subsection*{Experiment 11: Robustness against Low-order CIT Error}
 \begin{tabular}{llrr}
 \toprule
-     &             &  F1\_mean &  SHD\_mean \\
+     &           &  F1\_mean &  SHD\_mean \\
 ErrorRate & Algo &          &           \\
 \midrule
 0.00 & DF-PC &    1.000 &     0.000 \\
-     & Standard PC &    1.000 &     0.000 \\
+     & PC-stable &    1.000 &     0.000 \\
 0.01 & DF-PC &    0.888 &     6.933 \\
-     & Standard PC &    0.863 &     8.133 \\
+     & PC-stable &    0.863 &     8.133 \\
 0.05 & DF-PC &    0.573 &    26.433 \\
-     & Standard PC &    0.516 &    25.800 \\
+     & PC-stable &    0.516 &    25.800 \\
 0.10 & DF-PC &    0.433 &    32.433 \\
-     & Standard PC &    0.290 &    29.500 \\
+     & PC-stable &    0.290 &    29.500 \\
 0.20 & DF-PC &    0.241 &    35.833 \\
-     & Standard PC &    0.078 &    29.767 \\
+     & PC-stable &    0.078 &    29.767 \\
 \bottomrule
 \end{tabular}
 
