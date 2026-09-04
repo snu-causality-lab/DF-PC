@@ -1,0 +1,279 @@
+% Generated LaTeX Tables for DF-PC Paper
+\newcommand{\stdv}[1]{\scriptsize{$\pm$#1}}
+
+% --- Experiment 1: Performance (N=10) ---
+\begin{table*}[t!]\centering
+\caption{Learning Performance for $|\mathbf{V}|=10$.}\label{table:perf-n10}
+\begin{adjustbox}{width=\linewidth}\begin{tabular}{@{} c c c l c c c c c c c c @{}}\toprule
+\multirow{2}{*}{Graph} & \multirow{2}{*}{$D$} & \multirow{2}{*}{$M$} & \multirow{2}{*}{Method} & \multicolumn{4}{c}{Discrete} & \multicolumn{4}{c}{Linear SEM} \\
+\cmidrule(lr){5-8} \cmidrule(l){9-12} & & & & F1 & Prec. & Rec. & SHD & F1 & Prec. & Rec. & SHD \\\midrule
+\multirow{16}{*}{\rotatebox{90}{ER}} & \multirow{8}{*}{2} & \multirow{2}{*}{1000} & Standard PC & 0.47\stdv{0.06} & 0.93\stdv{0.07} & 0.33\stdv{0.05} & 6.87\stdv{0.58} & \textbf{0.92}\stdv{0.02} & 0.98\stdv{0.02} & 0.88\stdv{0.03} & \textbf{1.43}\stdv{0.38} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.58}\stdv{0.06} & 0.91\stdv{0.05} & 0.44\stdv{0.06} & \textbf{6.03}\stdv{0.72} & 0.92\stdv{0.02} & 0.96\stdv{0.02} & 0.88\stdv{0.03} & 1.53\stdv{0.38} \\
+ &  & \multirow{2}{*}{2000} & Standard PC & 0.64\stdv{0.05} & 0.99\stdv{0.02} & 0.49\stdv{0.05} & 5.13\stdv{0.54} & \textbf{0.94}\stdv{0.02} & 0.98\stdv{0.01} & 0.90\stdv{0.03} & \textbf{1.20}\stdv{0.32} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.73}\stdv{0.05} & 0.94\stdv{0.03} & 0.61\stdv{0.06} & \textbf{4.30}\stdv{0.65} & 0.93\stdv{0.02} & 0.96\stdv{0.02} & 0.90\stdv{0.03} & 1.33\stdv{0.34} \\
+ &  & \multirow{2}{*}{5000} & Standard PC & 0.81\stdv{0.03} & 1.00\stdv{0.00} & 0.69\stdv{0.05} & 3.07\stdv{0.46} & \textbf{0.96}\stdv{0.02} & 0.99\stdv{0.01} & 0.93\stdv{0.03} & \textbf{0.80}\stdv{0.34} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.87}\stdv{0.04} & 0.94\stdv{0.03} & 0.82\stdv{0.05} & \textbf{2.30}\stdv{0.61} & 0.95\stdv{0.02} & 0.98\stdv{0.02} & 0.93\stdv{0.03} & 0.93\stdv{0.35} \\
+ &  & \multirow{2}{*}{10000} & Standard PC & 0.90\stdv{0.03} & 1.00\stdv{0.00} & 0.83\stdv{0.04} & 1.67\stdv{0.44} & \textbf{0.97}\stdv{0.02} & 0.99\stdv{0.01} & 0.95\stdv{0.03} & \textbf{0.63}\stdv{0.32} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.93}\stdv{0.02} & 0.96\stdv{0.02} & 0.91\stdv{0.03} & \textbf{1.27}\stdv{0.36} & 0.96\stdv{0.02} & 0.98\stdv{0.02} & 0.95\stdv{0.03} & 0.77\stdv{0.33} \\
+\cmidrule(lr){2-12}
+ & \multirow{8}{*}{4} & \multirow{2}{*}{1000} & Standard PC & 0.27\stdv{0.04} & 0.97\stdv{0.03} & 0.16\stdv{0.03} & 16.93\stdv{0.55} & 0.68\stdv{0.03} & 0.92\stdv{0.03} & 0.54\stdv{0.03} & 10.13\stdv{0.83} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.35}\stdv{0.04} & 0.94\stdv{0.04} & 0.22\stdv{0.03} & \textbf{15.90}\stdv{0.67} & \textbf{0.68}\stdv{0.03} & 0.91\stdv{0.03} & 0.55\stdv{0.03} & \textbf{10.10}\stdv{0.83} \\
+ &  & \multirow{2}{*}{2000} & Standard PC & 0.37\stdv{0.03} & 0.99\stdv{0.01} & 0.23\stdv{0.02} & 15.37\stdv{0.40} & 0.70\stdv{0.03} & 0.90\stdv{0.03} & 0.57\stdv{0.03} & 9.87\stdv{0.77} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.47}\stdv{0.04} & 0.95\stdv{0.02} & 0.32\stdv{0.04} & \textbf{14.03}\stdv{0.70} & \textbf{0.70}\stdv{0.02} & 0.90\stdv{0.03} & 0.57\stdv{0.02} & \textbf{9.80}\stdv{0.77} \\
+ &  & \multirow{2}{*}{5000} & Standard PC & 0.55\stdv{0.03} & 1.00\stdv{0.00} & 0.38\stdv{0.03} & 12.33\stdv{0.55} & \textbf{0.75}\stdv{0.02} & 0.89\stdv{0.02} & 0.64\stdv{0.03} & \textbf{8.67}\stdv{0.69} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.64}\stdv{0.04} & 0.98\stdv{0.01} & 0.48\stdv{0.04} & \textbf{10.57}\stdv{0.80} & \textbf{0.75}\stdv{0.02} & 0.89\stdv{0.02} & 0.64\stdv{0.03} & \textbf{8.67}\stdv{0.69} \\
+ &  & \multirow{2}{*}{10000} & Standard PC & 0.65\stdv{0.04} & 1.00\stdv{0.00} & 0.49\stdv{0.04} & 10.17\stdv{0.80} & 0.78\stdv{0.02} & 0.90\stdv{0.03} & 0.69\stdv{0.03} & 7.80\stdv{0.82} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.75}\stdv{0.03} & 0.99\stdv{0.01} & 0.61\stdv{0.05} & \textbf{7.93}\stdv{0.89} & \textbf{0.78}\stdv{0.02} & 0.90\stdv{0.03} & 0.69\stdv{0.03} & \textbf{7.77}\stdv{0.82} \\
+\cmidrule(lr){2-12}
+\midrule
+\multirow{16}{*}{\rotatebox{90}{SF}} & \multirow{8}{*}{2} & \multirow{2}{*}{1000} & Standard PC & 0.40\stdv{0.06} & 0.91\stdv{0.08} & 0.27\stdv{0.04} & 6.77\stdv{0.43} & \textbf{0.97}\stdv{0.02} & 0.99\stdv{0.01} & 0.95\stdv{0.03} & \textbf{0.53}\stdv{0.32} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.44}\stdv{0.06} & 0.88\stdv{0.08} & 0.31\stdv{0.05} & \textbf{6.57}\stdv{0.48} & 0.96\stdv{0.02} & 0.98\stdv{0.01} & 0.95\stdv{0.03} & 0.60\stdv{0.29} \\
+ &  & \multirow{2}{*}{2000} & Standard PC & 0.52\stdv{0.06} & 0.92\stdv{0.08} & 0.38\stdv{0.06} & 5.77\stdv{0.59} & \textbf{0.99}\stdv{0.01} & 0.99\stdv{0.01} & 0.98\stdv{0.02} & \textbf{0.23}\stdv{0.20} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.57}\stdv{0.06} & 0.90\stdv{0.05} & 0.44\stdv{0.06} & \textbf{5.53}\stdv{0.61} & 0.98\stdv{0.01} & 0.97\stdv{0.02} & 0.98\stdv{0.02} & 0.43\stdv{0.26} \\
+ &  & \multirow{2}{*}{5000} & Standard PC & 0.64\stdv{0.06} & 0.96\stdv{0.03} & 0.50\stdv{0.07} & 4.67\stdv{0.65} & \textbf{1.00}\stdv{0.00} & 1.00\stdv{0.00} & 1.00\stdv{0.01} & \textbf{0.03}\stdv{0.07} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.71}\stdv{0.06} & 0.93\stdv{0.03} & 0.60\stdv{0.07} & \textbf{4.03}\stdv{0.64} & 0.99\stdv{0.01} & 0.99\stdv{0.01} & 1.00\stdv{0.01} & 0.13\stdv{0.12} \\
+ &  & \multirow{2}{*}{10000} & Standard PC & 0.75\stdv{0.05} & 0.98\stdv{0.02} & 0.63\stdv{0.07} & 3.43\stdv{0.63} & \textbf{1.00}\stdv{0.01} & 1.00\stdv{0.01} & 1.00\stdv{0.01} & \textbf{0.07}\stdv{0.09} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.80}\stdv{0.05} & 0.95\stdv{0.03} & 0.73\stdv{0.07} & \textbf{2.90}\stdv{0.65} & 0.99\stdv{0.01} & 0.99\stdv{0.01} & 1.00\stdv{0.01} & 0.17\stdv{0.17} \\
+\cmidrule(lr){2-12}
+ & \multirow{8}{*}{4} & \multirow{2}{*}{1000} & Standard PC & 0.25\stdv{0.04} & 0.96\stdv{0.05} & 0.15\stdv{0.03} & 13.70\stdv{0.49} & 0.77\stdv{0.03} & 0.92\stdv{0.03} & 0.67\stdv{0.03} & \textbf{6.30}\stdv{0.85} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.31}\stdv{0.05} & 0.95\stdv{0.05} & 0.19\stdv{0.04} & \textbf{13.03}\stdv{0.68} & \textbf{0.77}\stdv{0.03} & 0.91\stdv{0.04} & 0.68\stdv{0.04} & 6.33\stdv{0.88} \\
+ &  & \multirow{2}{*}{2000} & Standard PC & 0.36\stdv{0.04} & 0.97\stdv{0.04} & 0.22\stdv{0.03} & 12.50\stdv{0.55} & 0.79\stdv{0.03} & 0.90\stdv{0.04} & 0.70\stdv{0.03} & \textbf{6.10}\stdv{0.75} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.40}\stdv{0.05} & 0.96\stdv{0.04} & 0.26\stdv{0.04} & \textbf{12.00}\stdv{0.71} & \textbf{0.79}\stdv{0.03} & 0.89\stdv{0.03} & 0.71\stdv{0.03} & \textbf{6.10}\stdv{0.77} \\
+ &  & \multirow{2}{*}{5000} & Standard PC & 0.44\stdv{0.05} & 0.98\stdv{0.03} & 0.29\stdv{0.04} & 11.40\stdv{0.69} & 0.83\stdv{0.03} & 0.91\stdv{0.03} & 0.76\stdv{0.03} & 5.10\stdv{0.75} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.48}\stdv{0.06} & 0.94\stdv{0.04} & 0.34\stdv{0.06} & \textbf{10.80}\stdv{1.02} & \textbf{0.83}\stdv{0.03} & 0.91\stdv{0.03} & 0.76\stdv{0.03} & \textbf{5.07}\stdv{0.75} \\
+ &  & \multirow{2}{*}{10000} & Standard PC & 0.54\stdv{0.06} & 1.00\stdv{0.00} & 0.39\stdv{0.06} & 9.83\stdv{0.89} & 0.85\stdv{0.03} & 0.91\stdv{0.03} & 0.79\stdv{0.03} & 4.57\stdv{0.88} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.61}\stdv{0.06} & 0.98\stdv{0.02} & 0.46\stdv{0.06} & \textbf{8.70}\stdv{1.04} & \textbf{0.85}\stdv{0.03} & 0.91\stdv{0.03} & 0.80\stdv{0.03} & \textbf{4.50}\stdv{0.88} \\
+\cmidrule(lr){2-12}
+\bottomrule\end{tabular}\end{adjustbox}\end{table*}
+
+% --- Experiment 1: Performance (N=20) ---
+\begin{table*}[t!]\centering
+\caption{Learning Performance for $|\mathbf{V}|=20$.}\label{table:perf-n20}
+\begin{adjustbox}{width=\linewidth}\begin{tabular}{@{} c c c l c c c c c c c c @{}}\toprule
+\multirow{2}{*}{Graph} & \multirow{2}{*}{$D$} & \multirow{2}{*}{$M$} & \multirow{2}{*}{Method} & \multicolumn{4}{c}{Discrete} & \multicolumn{4}{c}{Linear SEM} \\
+\cmidrule(lr){5-8} \cmidrule(l){9-12} & & & & F1 & Prec. & Rec. & SHD & F1 & Prec. & Rec. & SHD \\\midrule
+\multirow{16}{*}{\rotatebox{90}{ER}} & \multirow{8}{*}{2} & \multirow{2}{*}{1000} & Standard PC & 0.47\stdv{0.04} & 0.98\stdv{0.02} & 0.32\stdv{0.03} & 13.83\stdv{0.64} & \textbf{0.93}\stdv{0.02} & 0.97\stdv{0.02} & 0.89\stdv{0.03} & \textbf{2.67}\stdv{0.84} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.55}\stdv{0.04} & 0.82\stdv{0.05} & 0.43\stdv{0.04} & \textbf{13.60}\stdv{1.05} & 0.91\stdv{0.02} & 0.95\stdv{0.02} & 0.89\stdv{0.03} & 3.27\stdv{0.90} \\
+ &  & \multirow{2}{*}{2000} & Standard PC & 0.63\stdv{0.04} & 0.96\stdv{0.02} & 0.47\stdv{0.04} & 10.87\stdv{0.91} & \textbf{0.95}\stdv{0.02} & 0.98\stdv{0.02} & 0.92\stdv{0.02} & \textbf{2.10}\stdv{0.61} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.71}\stdv{0.04} & 0.86\stdv{0.03} & 0.61\stdv{0.04} & \textbf{9.83}\stdv{1.07} & 0.93\stdv{0.02} & 0.95\stdv{0.02} & 0.92\stdv{0.02} & 2.63\stdv{0.67} \\
+ &  & \multirow{2}{*}{5000} & Standard PC & 0.80\stdv{0.04} & 0.99\stdv{0.01} & 0.68\stdv{0.05} & 6.43\stdv{0.95} & \textbf{0.96}\stdv{0.02} & 0.98\stdv{0.02} & 0.94\stdv{0.02} & \textbf{1.57}\stdv{0.67} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.85}\stdv{0.03} & 0.92\stdv{0.02} & 0.79\stdv{0.04} & \textbf{5.57}\stdv{0.89} & 0.95\stdv{0.02} & 0.96\stdv{0.02} & 0.94\stdv{0.02} & 1.97\stdv{0.72} \\
+ &  & \multirow{2}{*}{10000} & Standard PC & 0.87\stdv{0.03} & 1.00\stdv{0.01} & 0.78\stdv{0.04} & 4.37\stdv{0.85} & \textbf{0.97}\stdv{0.01} & 0.99\stdv{0.01} & 0.95\stdv{0.02} & \textbf{1.03}\stdv{0.44} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.89}\stdv{0.03} & 0.93\stdv{0.02} & 0.86\stdv{0.04} & \textbf{4.10}\stdv{0.95} & 0.96\stdv{0.01} & 0.97\stdv{0.01} & 0.96\stdv{0.02} & 1.43\stdv{0.47} \\
+\cmidrule(lr){2-12}
+ & \multirow{8}{*}{4} & \multirow{2}{*}{1000} & Standard PC & 0.26\stdv{0.02} & 0.92\stdv{0.04} & 0.15\stdv{0.02} & 34.37\stdv{0.77} & 0.64\stdv{0.02} & 0.88\stdv{0.03} & 0.50\stdv{0.02} & \textbf{22.63}\stdv{1.32} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.35}\stdv{0.03} & 0.84\stdv{0.05} & 0.22\stdv{0.02} & \textbf{32.73}\stdv{1.14} & \textbf{0.64}\stdv{0.02} & 0.87\stdv{0.03} & 0.51\stdv{0.02} & 22.67\stdv{1.33} \\
+ &  & \multirow{2}{*}{2000} & Standard PC & 0.37\stdv{0.03} & 0.99\stdv{0.01} & 0.23\stdv{0.02} & 30.90\stdv{0.80} & \textbf{0.66}\stdv{0.02} & 0.87\stdv{0.03} & 0.54\stdv{0.03} & \textbf{21.73}\stdv{1.38} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.48}\stdv{0.03} & 0.90\stdv{0.03} & 0.33\stdv{0.03} & \textbf{28.13}\stdv{1.19} & 0.66\stdv{0.02} & 0.86\stdv{0.02} & 0.54\stdv{0.03} & 21.83\stdv{1.39} \\
+ &  & \multirow{2}{*}{5000} & Standard PC & 0.51\stdv{0.02} & 0.99\stdv{0.01} & 0.35\stdv{0.02} & 26.23\stdv{0.85} & 0.69\stdv{0.03} & 0.87\stdv{0.03} & 0.58\stdv{0.03} & 20.37\stdv{1.66} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.64}\stdv{0.02} & 0.96\stdv{0.01} & 0.48\stdv{0.02} & \textbf{21.67}\stdv{1.03} & \textbf{0.69}\stdv{0.03} & 0.87\stdv{0.03} & 0.58\stdv{0.03} & \textbf{20.33}\stdv{1.66} \\
+ &  & \multirow{2}{*}{10000} & Standard PC & 0.62\stdv{0.02} & 1.00\stdv{0.00} & 0.45\stdv{0.02} & 21.83\stdv{0.76} & 0.70\stdv{0.03} & 0.84\stdv{0.03} & 0.61\stdv{0.03} & 20.43\stdv{1.80} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.73}\stdv{0.02} & 0.95\stdv{0.02} & 0.60\stdv{0.03} & \textbf{17.50}\stdv{1.25} & \textbf{0.70}\stdv{0.03} & 0.84\stdv{0.03} & 0.61\stdv{0.03} & \textbf{20.33}\stdv{1.80} \\
+\cmidrule(lr){2-12}
+\midrule
+\multirow{16}{*}{\rotatebox{90}{SF}} & \multirow{8}{*}{2} & \multirow{2}{*}{1000} & Standard PC & 0.32\stdv{0.05} & 0.84\stdv{0.06} & 0.21\stdv{0.04} & \textbf{15.70}\stdv{0.73} & \textbf{0.91}\stdv{0.03} & 0.98\stdv{0.01} & 0.87\stdv{0.05} & \textbf{2.87}\stdv{0.96} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.34}\stdv{0.06} & 0.67\stdv{0.07} & 0.24\stdv{0.04} & 16.50\stdv{1.01} & 0.91\stdv{0.03} & 0.95\stdv{0.02} & 0.88\stdv{0.05} & 3.10\stdv{1.11} \\
+ &  & \multirow{2}{*}{2000} & Standard PC & 0.42\stdv{0.05} & 0.93\stdv{0.05} & 0.28\stdv{0.04} & \textbf{14.07}\stdv{0.85} & \textbf{0.95}\stdv{0.03} & 0.98\stdv{0.01} & 0.92\stdv{0.04} & \textbf{1.83}\stdv{0.84} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.44}\stdv{0.05} & 0.81\stdv{0.06} & 0.31\stdv{0.04} & 14.50\stdv{1.09} & 0.93\stdv{0.03} & 0.95\stdv{0.02} & 0.92\stdv{0.04} & 2.40\stdv{0.89} \\
+ &  & \multirow{2}{*}{5000} & Standard PC & 0.55\stdv{0.05} & 0.94\stdv{0.04} & 0.40\stdv{0.05} & \textbf{11.83}\stdv{0.95} & \textbf{0.97}\stdv{0.02} & 0.99\stdv{0.01} & 0.95\stdv{0.03} & \textbf{1.13}\stdv{0.60} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.55}\stdv{0.05} & 0.84\stdv{0.04} & 0.43\stdv{0.05} & 12.50\stdv{0.91} & 0.96\stdv{0.02} & 0.97\stdv{0.02} & 0.95\stdv{0.03} & 1.53\stdv{0.67} \\
+ &  & \multirow{2}{*}{10000} & Standard PC & 0.62\stdv{0.05} & 0.98\stdv{0.02} & 0.46\stdv{0.05} & \textbf{10.33}\stdv{0.90} & \textbf{0.98}\stdv{0.01} & 0.99\stdv{0.01} & 0.98\stdv{0.02} & \textbf{0.63}\stdv{0.46} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.63}\stdv{0.05} & 0.86\stdv{0.03} & 0.52\stdv{0.06} & 10.73\stdv{1.08} & 0.97\stdv{0.01} & 0.97\stdv{0.01} & 0.98\stdv{0.02} & 0.97\stdv{0.48} \\
+\cmidrule(lr){2-12}
+ & \multirow{8}{*}{4} & \multirow{2}{*}{1000} & Standard PC & 0.20\stdv{0.03} & 0.83\stdv{0.09} & 0.12\stdv{0.02} & 31.60\stdv{0.84} & 0.66\stdv{0.04} & 0.87\stdv{0.03} & 0.54\stdv{0.04} & \textbf{18.90}\stdv{1.99} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.24}\stdv{0.04} & 0.73\stdv{0.08} & 0.15\stdv{0.02} & \textbf{31.53}\stdv{0.95} & \textbf{0.67}\stdv{0.04} & 0.85\stdv{0.03} & 0.55\stdv{0.04} & 19.07\stdv{2.04} \\
+ &  & \multirow{2}{*}{2000} & Standard PC & 0.30\stdv{0.03} & 0.92\stdv{0.04} & 0.18\stdv{0.02} & 29.20\stdv{0.78} & 0.70\stdv{0.03} & 0.86\stdv{0.03} & 0.59\stdv{0.04} & \textbf{17.80}\stdv{1.90} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.33}\stdv{0.03} & 0.83\stdv{0.04} & 0.21\stdv{0.02} & \textbf{29.13}\stdv{0.81} & \textbf{0.70}\stdv{0.03} & 0.85\stdv{0.03} & 0.59\stdv{0.04} & 17.90\stdv{1.91} \\
+ &  & \multirow{2}{*}{5000} & Standard PC & 0.41\stdv{0.03} & 0.99\stdv{0.01} & 0.26\stdv{0.02} & \textbf{26.07}\stdv{0.81} & 0.73\stdv{0.03} & 0.86\stdv{0.03} & 0.64\stdv{0.04} & \textbf{16.50}\stdv{2.02} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.44}\stdv{0.03} & 0.87\stdv{0.03} & 0.30\stdv{0.03} & 26.20\stdv{1.04} & \textbf{0.73}\stdv{0.03} & 0.85\stdv{0.03} & 0.64\stdv{0.04} & 16.53\stdv{1.99} \\
+ &  & \multirow{2}{*}{10000} & Standard PC & 0.47\stdv{0.03} & 0.99\stdv{0.01} & 0.31\stdv{0.03} & 24.23\stdv{0.91} & \textbf{0.75}\stdv{0.04} & 0.85\stdv{0.03} & 0.67\stdv{0.04} & \textbf{15.83}\stdv{2.23} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.51}\stdv{0.03} & 0.88\stdv{0.03} & 0.37\stdv{0.03} & \textbf{23.83}\stdv{1.23} & 0.75\stdv{0.04} & 0.85\stdv{0.03} & 0.67\stdv{0.04} & 15.93\stdv{2.23} \\
+\cmidrule(lr){2-12}
+\bottomrule\end{tabular}\end{adjustbox}\end{table*}
+
+% --- Experiment 1: Performance (N=30) ---
+\begin{table*}[t!]\centering
+\caption{Learning Performance for $|\mathbf{V}|=30$.}\label{table:perf-n30}
+\begin{adjustbox}{width=\linewidth}\begin{tabular}{@{} c c c l c c c c c c c c @{}}\toprule
+\multirow{2}{*}{Graph} & \multirow{2}{*}{$D$} & \multirow{2}{*}{$M$} & \multirow{2}{*}{Method} & \multicolumn{4}{c}{Discrete} & \multicolumn{4}{c}{Linear SEM} \\
+\cmidrule(lr){5-8} \cmidrule(l){9-12} & & & & F1 & Prec. & Rec. & SHD & F1 & Prec. & Rec. & SHD \\\midrule
+\multirow{16}{*}{\rotatebox{90}{ER}} & \multirow{8}{*}{2} & \multirow{2}{*}{1000} & Standard PC & 0.47\stdv{0.04} & 0.93\stdv{0.04} & 0.32\stdv{0.03} & \textbf{21.10}\stdv{1.13} & \textbf{0.93}\stdv{0.02} & 0.97\stdv{0.01} & 0.89\stdv{0.02} & \textbf{4.03}\stdv{0.94} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.54}\stdv{0.04} & 0.75\stdv{0.04} & 0.43\stdv{0.04} & 21.37\stdv{1.50} & 0.92\stdv{0.02} & 0.94\stdv{0.02} & 0.90\stdv{0.02} & 4.73\stdv{0.99} \\
+ &  & \multirow{2}{*}{2000} & Standard PC & 0.61\stdv{0.04} & 0.97\stdv{0.02} & 0.46\stdv{0.04} & 16.67\stdv{1.22} & \textbf{0.94}\stdv{0.01} & 0.97\stdv{0.01} & 0.92\stdv{0.02} & \textbf{3.23}\stdv{0.82} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.70}\stdv{0.04} & 0.84\stdv{0.03} & 0.61\stdv{0.04} & \textbf{15.20}\stdv{1.65} & 0.93\stdv{0.02} & 0.94\stdv{0.01} & 0.92\stdv{0.02} & 4.30\stdv{0.92} \\
+ &  & \multirow{2}{*}{5000} & Standard PC & 0.78\stdv{0.03} & 0.99\stdv{0.01} & 0.65\stdv{0.04} & \textbf{10.87}\stdv{1.08} & \textbf{0.96}\stdv{0.01} & 0.98\stdv{0.01} & 0.95\stdv{0.02} & \textbf{2.03}\stdv{0.83} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.80}\stdv{0.03} & 0.86\stdv{0.02} & 0.76\stdv{0.04} & 11.10\stdv{1.29} & 0.95\stdv{0.01} & 0.96\stdv{0.01} & 0.95\stdv{0.02} & 2.70\stdv{0.84} \\
+ &  & \multirow{2}{*}{10000} & Standard PC & 0.86\stdv{0.02} & 0.99\stdv{0.01} & 0.77\stdv{0.03} & \textbf{7.13}\stdv{1.00} & \textbf{0.97}\stdv{0.01} & 0.99\stdv{0.01} & 0.96\stdv{0.02} & \textbf{1.57}\stdv{0.72} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.87}\stdv{0.02} & 0.88\stdv{0.02} & 0.86\stdv{0.03} & 7.70\stdv{1.17} & 0.95\stdv{0.01} & 0.95\stdv{0.02} & 0.96\stdv{0.02} & 2.73\stdv{0.79} \\
+\cmidrule(lr){2-12}
+ & \multirow{8}{*}{4} & \multirow{2}{*}{1000} & Standard PC & 0.24\stdv{0.02} & 0.94\stdv{0.03} & 0.14\stdv{0.01} & 52.20\stdv{0.79} & 0.65\stdv{0.02} & 0.87\stdv{0.02} & 0.52\stdv{0.02} & \textbf{33.57}\stdv{1.96} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.34}\stdv{0.03} & 0.80\stdv{0.03} & 0.22\stdv{0.02} & \textbf{50.23}\stdv{1.18} & \textbf{0.65}\stdv{0.02} & 0.86\stdv{0.02} & 0.52\stdv{0.02} & 33.60\stdv{2.01} \\
+ &  & \multirow{2}{*}{2000} & Standard PC & 0.35\stdv{0.02} & 0.97\stdv{0.02} & 0.21\stdv{0.02} & 47.63\stdv{1.03} & \textbf{0.67}\stdv{0.02} & 0.87\stdv{0.02} & 0.55\stdv{0.02} & \textbf{32.13}\stdv{2.01} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.47}\stdv{0.03} & 0.85\stdv{0.03} & 0.33\stdv{0.02} & \textbf{43.80}\stdv{1.64} & 0.67\stdv{0.02} & 0.86\stdv{0.02} & 0.55\stdv{0.02} & 32.37\stdv{2.01} \\
+ &  & \multirow{2}{*}{5000} & Standard PC & 0.50\stdv{0.02} & 0.99\stdv{0.01} & 0.33\stdv{0.02} & 40.23\stdv{1.15} & \textbf{0.69}\stdv{0.02} & 0.85\stdv{0.02} & 0.58\stdv{0.03} & \textbf{30.90}\stdv{2.08} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.61}\stdv{0.02} & 0.89\stdv{0.02} & 0.47\stdv{0.03} & \textbf{35.20}\stdv{1.64} & 0.69\stdv{0.02} & 0.85\stdv{0.02} & 0.59\stdv{0.03} & 31.07\stdv{2.10} \\
+ &  & \multirow{2}{*}{10000} & Standard PC & 0.59\stdv{0.02} & 1.00\stdv{0.00} & 0.42\stdv{0.02} & 34.87\stdv{1.17} & \textbf{0.70}\stdv{0.02} & 0.84\stdv{0.02} & 0.60\stdv{0.03} & \textbf{30.90}\stdv{2.18} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.71}\stdv{0.02} & 0.93\stdv{0.01} & 0.58\stdv{0.02} & \textbf{28.03}\stdv{1.66} & 0.70\stdv{0.02} & 0.84\stdv{0.02} & 0.60\stdv{0.03} & 31.00\stdv{2.22} \\
+\cmidrule(lr){2-12}
+\midrule
+\multirow{16}{*}{\rotatebox{90}{SF}} & \multirow{8}{*}{2} & \multirow{2}{*}{1000} & Standard PC & 0.28\stdv{0.03} & 0.78\stdv{0.07} & 0.17\stdv{0.02} & \textbf{24.80}\stdv{0.84} & \textbf{0.90}\stdv{0.03} & 0.98\stdv{0.01} & 0.84\stdv{0.05} & \textbf{5.07}\stdv{1.42} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.32}\stdv{0.04} & 0.61\stdv{0.06} & 0.22\stdv{0.03} & 26.17\stdv{1.19} & 0.89\stdv{0.03} & 0.93\stdv{0.02} & 0.85\stdv{0.05} & 5.90\stdv{1.61} \\
+ &  & \multirow{2}{*}{2000} & Standard PC & 0.40\stdv{0.03} & 0.87\stdv{0.03} & 0.26\stdv{0.03} & \textbf{21.90}\stdv{0.77} & \textbf{0.93}\stdv{0.03} & 0.97\stdv{0.01} & 0.89\stdv{0.04} & \textbf{3.87}\stdv{1.32} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.43}\stdv{0.04} & 0.70\stdv{0.05} & 0.32\stdv{0.03} & 23.20\stdv{1.06} & 0.91\stdv{0.03} & 0.93\stdv{0.02} & 0.90\stdv{0.04} & 4.83\stdv{1.47} \\
+ &  & \multirow{2}{*}{5000} & Standard PC & \textbf{0.51}\stdv{0.05} & 0.91\stdv{0.04} & 0.36\stdv{0.04} & \textbf{19.00}\stdv{1.24} & \textbf{0.95}\stdv{0.03} & 0.98\stdv{0.01} & 0.93\stdv{0.04} & \textbf{2.63}\stdv{1.28} \\
+ &  &  & \textbf{DF-PC} & 0.51\stdv{0.04} & 0.72\stdv{0.04} & 0.40\stdv{0.04} & 21.40\stdv{1.26} & 0.93\stdv{0.03} & 0.95\stdv{0.02} & 0.93\stdv{0.04} & 3.50\stdv{1.29} \\
+ &  & \multirow{2}{*}{10000} & Standard PC & \textbf{0.57}\stdv{0.04} & 0.92\stdv{0.03} & 0.42\stdv{0.04} & \textbf{17.33}\stdv{1.25} & \textbf{0.96}\stdv{0.02} & 0.99\stdv{0.01} & 0.94\stdv{0.04} & \textbf{1.97}\stdv{1.11} \\
+ &  &  & \textbf{DF-PC} & 0.56\stdv{0.04} & 0.75\stdv{0.05} & 0.45\stdv{0.04} & 19.73\stdv{1.56} & 0.94\stdv{0.02} & 0.95\stdv{0.01} & 0.94\stdv{0.04} & 3.20\stdv{0.96} \\
+\cmidrule(lr){2-12}
+ & \multirow{8}{*}{4} & \multirow{2}{*}{1000} & Standard PC & 0.24\stdv{0.02} & 0.89\stdv{0.04} & 0.14\stdv{0.01} & \textbf{45.97}\stdv{1.19} & 0.69\stdv{0.03} & 0.90\stdv{0.02} & 0.56\stdv{0.03} & \textbf{26.03}\stdv{2.20} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.28}\stdv{0.02} & 0.70\stdv{0.04} & 0.17\stdv{0.02} & 47.23\stdv{1.42} & \textbf{0.69}\stdv{0.03} & 0.88\stdv{0.03} & 0.58\stdv{0.03} & 26.47\stdv{2.39} \\
+ &  & \multirow{2}{*}{2000} & Standard PC & 0.32\stdv{0.03} & 0.93\stdv{0.03} & 0.19\stdv{0.02} & \textbf{43.03}\stdv{1.40} & \textbf{0.71}\stdv{0.03} & 0.89\stdv{0.03} & 0.60\stdv{0.03} & \textbf{25.03}\stdv{2.20} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.34}\stdv{0.03} & 0.72\stdv{0.04} & 0.23\stdv{0.02} & 44.93\stdv{1.75} & 0.71\stdv{0.03} & 0.87\stdv{0.03} & 0.61\stdv{0.03} & 25.57\stdv{2.25} \\
+ &  & \multirow{2}{*}{5000} & Standard PC & 0.41\stdv{0.03} & 0.97\stdv{0.02} & 0.27\stdv{0.03} & \textbf{38.83}\stdv{1.78} & 0.75\stdv{0.03} & 0.88\stdv{0.03} & 0.65\stdv{0.03} & \textbf{22.93}\stdv{2.59} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.44}\stdv{0.03} & 0.80\stdv{0.03} & 0.31\stdv{0.03} & 40.20\stdv{2.06} & \textbf{0.75}\stdv{0.03} & 0.88\stdv{0.03} & 0.66\stdv{0.03} & \textbf{22.93}\stdv{2.47} \\
+ &  & \multirow{2}{*}{10000} & Standard PC & 0.47\stdv{0.03} & 0.98\stdv{0.01} & 0.32\stdv{0.03} & \textbf{36.13}\stdv{1.64} & \textbf{0.76}\stdv{0.03} & 0.87\stdv{0.03} & 0.67\stdv{0.03} & \textbf{22.80}\stdv{2.67} \\
+ &  &  & \textbf{DF-PC} & \textbf{0.51}\stdv{0.03} & 0.85\stdv{0.03} & 0.37\stdv{0.03} & 36.37\stdv{1.82} & 0.75\stdv{0.03} & 0.86\stdv{0.03} & 0.67\stdv{0.03} & 22.93\stdv{2.60} \\
+\cmidrule(lr){2-12}
+\bottomrule\end{tabular}\end{adjustbox}\end{table*}
+
+% --- Experiment 1: Efficiency (N=10) ---
+\begin{table}[h!]\centering
+\caption{Computational Efficiency for $|\mathbf{V}|=10$. \textit{Cond. CIT} denotes conditional independence tests ($|Z|>0$), \textit{Req.} is the total CI requests from the framework, and \textit{OH Time} is the algorithmic overhead in seconds.}\label{table:eff-n10}
+\begin{adjustbox}{width=\columnwidth}\begin{tabular}{@{} c c l c c c c c @{}}\toprule
+Graph & $D$ & Method & Cond. CIT & Req. & Tot. Time & OH Time \\ \midrule
+\multirow{2}{*}{ER} & \multirow{2}{*}{2} & Standard PC & 33.03\stdv{12.71} & 125.67\stdv{13.59} & 0.01\stdv{0.00} & 0.00\stdv{0.00} \\
+ &  & \textbf{DF-PC} & 4.50\stdv{3.14} & 136.67\stdv{16.83} & 0.01\stdv{0.00} & 0.00\stdv{0.00} \\
+\cmidrule(lr){2-7}
+ & \multirow{2}{*}{4} & Standard PC & 46.37\stdv{11.71} & 141.10\stdv{13.58} & 0.02\stdv{0.00} & 0.00\stdv{0.00} \\
+ &  & \textbf{DF-PC} & 10.10\stdv{6.58} & 174.07\stdv{25.89} & 0.01\stdv{0.00} & 0.00\stdv{0.00} \\
+\cmidrule(lr){2-7}
+\midrule
+\multirow{2}{*}{SF} & \multirow{2}{*}{2} & Standard PC & 9.77\stdv{2.77} & 99.90\stdv{2.77} & 0.01\stdv{0.00} & 0.00\stdv{0.00} \\
+ &  & \textbf{DF-PC} & 0.20\stdv{0.27} & 104.57\stdv{5.85} & 0.01\stdv{0.00} & 0.00\stdv{0.00} \\
+\cmidrule(lr){2-7}
+ & \multirow{2}{*}{4} & Standard PC & 14.00\stdv{5.47} & 104.87\stdv{5.88} & 0.01\stdv{0.00} & 0.00\stdv{0.00} \\
+ &  & \textbf{DF-PC} & 1.37\stdv{1.21} & 111.40\stdv{9.76} & 0.01\stdv{0.00} & 0.00\stdv{0.00} \\
+\cmidrule(lr){2-7}
+\bottomrule\end{tabular}\end{adjustbox}\end{table}
+
+% --- Experiment 1: Efficiency (N=20) ---
+\begin{table}[h!]\centering
+\caption{Computational Efficiency for $|\mathbf{V}|=20$. \textit{Cond. CIT} denotes conditional independence tests ($|Z|>0$), \textit{Req.} is the total CI requests from the framework, and \textit{OH Time} is the algorithmic overhead in seconds.}\label{table:eff-n20}
+\begin{adjustbox}{width=\columnwidth}\begin{tabular}{@{} c c l c c c c c @{}}\toprule
+Graph & $D$ & Method & Cond. CIT & Req. & Tot. Time & OH Time \\ \midrule
+\multirow{2}{*}{ER} & \multirow{2}{*}{2} & Standard PC & 62.67\stdv{7.83} & 445.47\stdv{8.34} & 0.05\stdv{0.00} & 0.00\stdv{0.00} \\
+ &  & \textbf{DF-PC} & 4.13\stdv{2.20} & 473.57\stdv{15.74} & 0.03\stdv{0.00} & 0.00\stdv{0.00} \\
+\cmidrule(lr){2-7}
+ & \multirow{2}{*}{4} & Standard PC & 102.47\stdv{20.45} & 487.00\stdv{21.54} & 0.06\stdv{0.01} & 0.00\stdv{0.00} \\
+ &  & \textbf{DF-PC} & 8.40\stdv{4.70} & 585.50\stdv{55.86} & 0.04\stdv{0.00} & 0.01\stdv{0.00} \\
+\cmidrule(lr){2-7}
+\midrule
+\multirow{2}{*}{SF} & \multirow{2}{*}{2} & Standard PC & 17.77\stdv{4.78} & 398.07\stdv{4.81} & 0.03\stdv{0.00} & 0.00\stdv{0.00} \\
+ &  & \textbf{DF-PC} & 0.30\stdv{0.33} & 404.97\stdv{8.79} & 0.03\stdv{0.00} & 0.00\stdv{0.00} \\
+\cmidrule(lr){2-7}
+ & \multirow{2}{*}{4} & Standard PC & 28.33\stdv{5.20} & 409.47\stdv{5.48} & 0.04\stdv{0.00} & 0.00\stdv{0.00} \\
+ &  & \textbf{DF-PC} & 1.20\stdv{0.67} & 419.90\stdv{9.18} & 0.03\stdv{0.00} & 0.00\stdv{0.00} \\
+\cmidrule(lr){2-7}
+\bottomrule\end{tabular}\end{adjustbox}\end{table}
+
+% --- Experiment 1: Efficiency (N=30) ---
+\begin{table}[h!]\centering
+\caption{Computational Efficiency for $|\mathbf{V}|=30$. \textit{Cond. CIT} denotes conditional independence tests ($|Z|>0$), \textit{Req.} is the total CI requests from the framework, and \textit{OH Time} is the algorithmic overhead in seconds.}\label{table:eff-n30}
+\begin{adjustbox}{width=\columnwidth}\begin{tabular}{@{} c c l c c c c c @{}}\toprule
+Graph & $D$ & Method & Cond. CIT & Req. & Tot. Time & OH Time \\ \midrule
+\multirow{2}{*}{ER} & \multirow{2}{*}{2} & Standard PC & 105.97\stdv{14.76} & 980.03\stdv{15.43} & 0.10\stdv{0.01} & 0.01\stdv{0.00} \\
+ &  & \textbf{DF-PC} & 5.77\stdv{1.84} & 1058.07\stdv{39.39} & 0.08\stdv{0.01} & 0.01\stdv{0.00} \\
+\cmidrule(lr){2-7}
+ & \multirow{2}{*}{4} & Standard PC & 177.57\stdv{37.60} & 1053.27\stdv{39.14} & 0.12\stdv{0.01} & 0.01\stdv{0.00} \\
+ &  & \textbf{DF-PC} & 10.50\stdv{5.75} & 1401.87\stdv{206.83} & 0.09\stdv{0.01} & 0.02\stdv{0.01} \\
+\cmidrule(lr){2-7}
+\midrule
+\multirow{2}{*}{SF} & \multirow{2}{*}{2} & Standard PC & 29.23\stdv{5.87} & 899.80\stdv{5.90} & 0.08\stdv{0.01} & 0.01\stdv{0.00} \\
+ &  & \textbf{DF-PC} & 0.60\stdv{0.44} & 921.83\stdv{16.40} & 0.08\stdv{0.00} & 0.01\stdv{0.00} \\
+\cmidrule(lr){2-7}
+ & \multirow{2}{*}{4} & Standard PC & 49.37\stdv{9.76} & 920.43\stdv{10.09} & 0.09\stdv{0.01} & 0.01\stdv{0.00} \\
+ &  & \textbf{DF-PC} & 1.50\stdv{0.78} & 952.33\stdv{18.24} & 0.08\stdv{0.01} & 0.01\stdv{0.00} \\
+\cmidrule(lr){2-7}
+\bottomrule\end{tabular}\end{adjustbox}\end{table}
+
+% --- Experiment 2: Nonlinear Causal Discovery ---
+\begin{table*}[t!]\centering
+\caption{Nonlinear Performance using KCI ($|\mathbf{V}|=10, M=1000$).}\label{table:nonlinear}
+\begin{adjustbox}{width=\linewidth}\begin{tabular}{@{}llcccccccc@{}}\toprule
+Graph & Method & F1 & Precision & Recall & SHD & Act. CIT & Cond. CIT & Tot. Time \\ \midrule
+\multirow{2}{*}{ER} & Standard PC & 0.85\stdv{0.05} & 0.97\stdv{0.02} & 0.77\stdv{0.06} & 2.50\stdv{0.61} & 122.33\stdv{14.44} & 77.33\stdv{14.44} & 66.37\stdv{11.70} \\
+ & \textbf{DF-PC} & \textbf{0.86}\stdv{0.05} & 0.94\stdv{0.02} & 0.80\stdv{0.06} & 2.47\stdv{0.61} & 88.90\stdv{11.56} & \textbf{43.90}\stdv{11.56} & 39.00\stdv{9.48} \\
+\midrule
+\multirow{2}{*}{SF} & Standard PC & \textbf{0.85}\stdv{0.05} & 0.99\stdv{0.01} & 0.77\stdv{0.07} & 2.07\stdv{0.59} & 97.50\stdv{10.56} & 52.50\stdv{10.56} & 45.26\stdv{8.97} \\
+ & \textbf{DF-PC} & 0.85\stdv{0.05} & 0.97\stdv{0.02} & 0.78\stdv{0.07} & 2.10\stdv{0.65} & 60.47\stdv{5.72} & \textbf{15.47}\stdv{5.72} & 12.95\stdv{4.20} \\
+\bottomrule\end{tabular}\end{adjustbox}\end{table*}
+
+% --- Experiment 3: Extreme Case Hubs ---
+\begin{table}[h!]\centering
+\caption{Performance on Extreme Causal Hubs ($|\mathbf{V}|=11, M=2000$).}\label{table:extreme}
+\begin{adjustbox}{width=\columnwidth}\begin{tabular}{@{}llcccc@{}}\toprule
+Structure & Method & F1 & Total CIT & Time (s) \\ \midrule
+\multirow{2}{*}{Collider-Hub} & Standard PC & 1.00 & 5165.10 & 0.59 \\
+ & \textbf{DF-PC} & 1.00 & \textbf{55.30} & 0.13 \\
+\midrule
+\multirow{2}{*}{Source-Hub} & Standard PC & 1.00 & \textbf{5210.80} & 0.54 \\
+ & \textbf{DF-PC} & 1.00 & \textbf{5210.80} & 0.83 \\
+\bottomrule\end{tabular}\end{adjustbox}\end{table}
+
+% --- Experiment 4: Alpha Sensitivity ---
+\begin{table}[h!]\centering
+\caption{Sensitivity Analysis of $\alpha$ ($N=40, M=5000$).}\label{table:alpha-sens}
+\begin{adjustbox}{width=\columnwidth}\begin{tabular}{@{}llcccc@{}}\toprule
+$\alpha$ & Method & F1 & Total CIT & Time (s) \\ \midrule
+\multirow{2}{*}{0.05} & Standard PC & \textbf{0.93} & 3090.00 & 0.44 \\
+ & \textbf{DF-PC} & 0.87 & \textbf{1976.40} & 0.34 \\
+\midrule
+\multirow{2}{*}{0.01} & Standard PC & \textbf{0.95} & 2674.90 & 0.42 \\
+ & \textbf{DF-PC} & 0.94 & \textbf{1769.40} & 0.29 \\
+\midrule
+\multirow{2}{*}{0.001} & Standard PC & \textbf{0.96} & 2485.60 & 0.32 \\
+ & \textbf{DF-PC} & 0.95 & \textbf{1701.20} & 0.24 \\
+\midrule
+\multirow{2}{*}{0.0001} & Standard PC & \textbf{0.96} & 2373.40 & 0.33 \\
+ & \textbf{DF-PC} & \textbf{0.96} & \textbf{1651.00} & 0.21 \\
+\bottomrule\end{tabular}\end{adjustbox}\end{table}
+
+% --- Experiment 5: Scalability Benchmarks (N=100) ---
+\begin{table*}[t!]\centering
+\caption{Scalability Results for Large Networks ($|\mathbf{V}|=100, M=1000$).}\label{table:scale}
+\begin{adjustbox}{width=\linewidth}\begin{tabular}{@{} c c l c c c c c c c c @{}}\toprule
+Graph & $D$ & Method & F1 & Precision & Recall & SHD & Act. CIT & Cond. CIT & Req. & Time (s) \\ \midrule
+\multirow{2}{*}{ER} & \multirow{2}{*}{2} & Standard PC & \textbf{0.94}\stdv{0.01} & 0.99\stdv{0.00} & 0.90\stdv{0.02} & 11.20\stdv{1.66} & 9212.93\stdv{377.98} & 4262.93\stdv{377.98} & 15822.53\stdv{571.06} & 1.18\stdv{0.08} \\
+ &  & \textbf{DF-PC} & 0.94\stdv{0.01} & 0.97\stdv{0.01} & 0.90\stdv{0.01} & 12.13\stdv{1.56} & 7268.70\stdv{272.59} & \textbf{2318.70}\stdv{272.59} & 15930.43\stdv{571.73} & 1.11\stdv{0.08} \\
+\cmidrule(lr){2-11}
+ & \multirow{2}{*}{4} & Standard PC & 0.68\stdv{0.01} & 0.91\stdv{0.01} & 0.55\stdv{0.02} & 101.53\stdv{3.82} & 40839.73\stdv{2016.52} & 35889.73\stdv{2016.52} & 62272.03\stdv{3331.70} & 5.62\stdv{0.51} \\
+ &  & \textbf{DF-PC} & \textbf{0.69}\stdv{0.01} & 0.90\stdv{0.01} & 0.56\stdv{0.02} & 100.77\stdv{3.87} & 26069.37\stdv{1543.18} & \textbf{21119.37}\stdv{1543.18} & 62614.47\stdv{3337.61} & 3.79\stdv{0.31} \\
+\cmidrule(lr){2-11}
+\midrule
+\multirow{2}{*}{SF} & \multirow{2}{*}{2} & Standard PC & 0.87\stdv{0.02} & 0.99\stdv{0.00} & 0.78\stdv{0.03} & 19.87\stdv{2.69} & 9643.13\stdv{1311.04} & 4693.13\stdv{1311.04} & 14941.07\stdv{1300.14} & 1.52\stdv{0.25} \\
+ &  & \textbf{DF-PC} & \textbf{0.88}\stdv{0.02} & 0.96\stdv{0.01} & 0.81\stdv{0.03} & 19.83\stdv{2.61} & 5798.17\stdv{219.72} & \textbf{848.17}\stdv{219.72} & 16401.40\stdv{1482.66} & 1.28\stdv{0.23} \\
+\cmidrule(lr){2-11}
+ & \multirow{2}{*}{4} & Standard PC & 0.71\stdv{0.02} & 0.96\stdv{0.01} & 0.56\stdv{0.02} & 77.47\stdv{4.44} & 14566.50\stdv{899.23} & 9616.50\stdv{899.23} & 22448.10\stdv{969.26} & 1.78\stdv{0.11} \\
+ &  & \textbf{DF-PC} & \textbf{0.72}\stdv{0.02} & 0.94\stdv{0.01} & 0.58\stdv{0.02} & 76.67\stdv{4.42} & 9179.07\stdv{377.23} & \textbf{4229.07}\stdv{377.23} & 23143.07\stdv{1058.00} & 1.31\stdv{0.07} \\
+\cmidrule(lr){2-11}
+\bottomrule\end{tabular}\end{adjustbox}\end{table*}
+
+% --- Experiment 6: Real-World Network Benchmarks ---
+\begin{table*}[t!]\centering
+\caption{Real-World Benchmarks (Barley, Mildew).}\label{table:realworld}
+\begin{adjustbox}{width=\linewidth}\begin{tabular}{@{} c c l c c c c c c c c @{}}\toprule
+Dataset & $M$ & Method & F1 & Precision & Recall & SHD & Act. CIT & Cond. CIT & Req. & Time (s) \\ \midrule
+\multirow{4}{*}{Barley} & \multirow{2}{*}{2000} & Standard PC & \textbf{0.68}\stdv{0.01} & 0.97\stdv{0.01} & 0.52\stdv{0.01} & 41.60\stdv{0.77} & 6675.07\stdv{103.29} & 5547.07\stdv{103.29} & 10018.27\stdv{137.85} & 1.37\stdv{0.04} \\
+ &  & \textbf{DF-PC} & 0.67\stdv{0.01} & 0.91\stdv{0.01} & 0.53\stdv{0.01} & 44.07\stdv{1.00} & 4904.90\stdv{77.78} & \textbf{3776.90}\stdv{77.78} & 10669.93\stdv{156.13} & 1.14\stdv{0.02} \\
+\cmidrule(lr){2-11}
+ & \multirow{2}{*}{5000} & Standard PC & \textbf{0.76}\stdv{0.01} & 0.97\stdv{0.00} & 0.62\stdv{0.01} & 33.27\stdv{0.78} & 11007.63\stdv{173.99} & 9879.63\stdv{173.99} & 16162.27\stdv{236.19} & 2.63\stdv{0.06} \\
+ &  & \textbf{DF-PC} & 0.75\stdv{0.01} & 0.93\stdv{0.01} & 0.63\stdv{0.01} & 35.13\stdv{0.85} & 8404.03\stdv{151.42} & \textbf{7276.03}\stdv{151.42} & 16892.50\stdv{266.95} & 2.17\stdv{0.06} \\
+\cmidrule(lr){2-11}
+\midrule
+\multirow{4}{*}{Mildew} & \multirow{2}{*}{2000} & Standard PC & 0.77\stdv{0.01} & 0.94\stdv{0.01} & 0.65\stdv{0.01} & 17.83\stdv{0.79} & 2504.03\stdv{65.44} & 1909.03\stdv{65.44} & 4248.80\stdv{86.13} & 2.65\stdv{0.64} \\
+ &  & \textbf{DF-PC} & \textbf{0.79}\stdv{0.01} & 0.89\stdv{0.02} & 0.71\stdv{0.01} & 17.27\stdv{1.09} & 2105.13\stdv{54.55} & \textbf{1510.13}\stdv{54.55} & 4553.83\stdv{98.40} & 2.21\stdv{0.55} \\
+\cmidrule(lr){2-11}
+ & \multirow{2}{*}{5000} & Standard PC & 0.85\stdv{0.01} & 0.97\stdv{0.01} & 0.75\stdv{0.01} & 12.30\stdv{0.53} & 3521.70\stdv{60.58} & 2926.70\stdv{60.58} & 5670.33\stdv{78.76} & 4.70\stdv{0.88} \\
+ &  & \textbf{DF-PC} & \textbf{0.85}\stdv{0.01} & 0.93\stdv{0.01} & 0.79\stdv{0.01} & 12.37\stdv{0.67} & 2838.97\stdv{49.74} & \textbf{2243.97}\stdv{49.74} & 5964.33\stdv{94.79} & 4.10\stdv{0.76} \\
+\cmidrule(lr){2-11}
+\bottomrule\end{tabular}\end{adjustbox}\end{table*}
