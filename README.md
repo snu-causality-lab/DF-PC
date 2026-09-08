@@ -12,6 +12,25 @@ The codebase is structured for reproducibility, clarity, and ease of experimenta
 pip install -r requirements.txt
 ```
 
+### Reusing a runner
+
+Each repeated call to `PCStable.run(data)` resets its deduction cache, counters,
+and provenance, and rebinds built-in CI testers to the supplied data with a fresh
+backend. This also handles data modified in place. The first call preserves the
+existing initialization behavior; start with a fresh tester for a new runner.
+
+Custom testers must implement `reset_for_data(data)` to support repeated calls.
+`CITester` provides this hook for its built-in state; subclasses with additional
+run-specific caches or counters must override it and call `super()`. Testers
+without this hook remain usable for one run. Experiment wrappers that override
+`run` are unchanged and continue to construct fresh objects for their trials.
+
+Run the lightweight regression tests with:
+
+```bash
+python -m unittest discover -s tests -v
+```
+
 ---
 
 ## 📊 Running Experiments
