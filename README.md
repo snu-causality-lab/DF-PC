@@ -4,6 +4,8 @@ This repository contains the official implementation for the paper **"Don’t Te
 
 The codebase is structured for reproducibility, clarity, and ease of experimentation.
 
+> **Note:** Our implementation and experiments focus on skeleton discovery; CPDAG orientation is not included in the released implementation.
+
 ---
 
 ## 🛠️ Installation
