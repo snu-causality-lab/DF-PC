@@ -16,18 +16,26 @@ class PCStable:
     PC-Stable algorithm for causal discovery (skeleton only).
     Now supports DF-PC (Deduce-First PC) logic via `use_deduction` flag.
     """
-    def __init__(self, alpha: float, ci_tester, use_deduction: bool = False, deduction_priority: str = 'dep', deduction_pure: bool = True):
+    def __init__(self, alpha: float, ci_tester, use_deduction: bool = False,
+                 deduction_priority: str = 'dep', deduction_pure: bool = True,
+                 *, early_stopping: bool = True):
         """
         Args:
             alpha: Significance level.
             ci_tester: Conditional Independence Tester object.
             use_deduction: If True, uses DF-PC logic with Deductor. 
-      Z      deduction_priority: 'dep' (Dep-First) or 'ind' (Ind-First). Default 'dep'.
+            deduction_priority: 'dep' (Dep-First) or 'ind' (Ind-First). Default 'dep'.
             deduction_pure: If True, deduction is pure (top-level CIT only). If False, recursion can trigger CITs.
+            early_stopping: If True (the paper's default), stop the current
+                ordered pair's conditioning-set search after independence.
+                If False, continue all eligible sets at that level; edges are
+                still removed only at the level's end. This can increase CI
+                tests and change the available deduction history and sepsets.
         """
         self.alpha = alpha
         self.ci_tester = ci_tester
         self.use_deduction = use_deduction
+        self.early_stopping = early_stopping
         
         self.deductor = None
         if self.use_deduction:
@@ -90,7 +98,8 @@ class PCStable:
                             if is_independent:
                                 sepsets[tuple(sorted([target, candidate]))] = cond_set
                                 marker.append([tuple(sorted([target, candidate])), cond_set])
-                                break # (Exhaustive search or worst case running scenario for (DF-)PC)
+                                if self.early_stopping:
+                                    break
                             else:
                                 consets[tuple(sorted([target, candidate]))] = cond_set
 
