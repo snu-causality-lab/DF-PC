@@ -244,9 +244,9 @@ GitHub Actions runs this suite with Python 3.11 and the base dependencies. It ex
 └── requirements-dev.txt                # Base dependencies plus pytest
 ```
 
-## License status
+## License
 
-Public-release licensing is pending; no repository-wide license has been added. The existing third-party notice in [cddd/independence.py](cddd/independence.py) is retained.
+Original DF-PC contributions are licensed under the [MIT License](LICENSE), except where separate notices apply. In particular, `cddd/independence.py` retains its existing GPLv2 notice and is not relicensed by this MIT addition. See [Third-party notices](THIRD_PARTY_NOTICES.md) for the scope and historical attribution.
 
 ## Citation
 
