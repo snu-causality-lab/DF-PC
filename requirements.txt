@@ -1,17 +1,11 @@
 causal-learn==0.1.3.8
-d3blocks==1.4.9
 numpy~=1.26.4
 networkx~=3.2.1
 scipy~=1.12.0
 pandas~=1.5.3
-bnlearn~=0.8.5
 joblib~=1.3.2
 matplotlib~=3.8.3
 seaborn~=0.13.2
 statsmodels~=0.14.1
-setuptools~=69.1.0
 filelock~=3.13.1
-pgmpy~=0.1.25
 scikit-learn~=1.4.1
-# tabulate is sometimes useful for printing results, but not strictly required by core scripts
-# tabulate~=0.9.0

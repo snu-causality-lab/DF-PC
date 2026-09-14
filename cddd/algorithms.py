@@ -5,9 +5,7 @@ from typing import List, Dict, Tuple, Set, Union, Optional
 import networkx as nx
 import numpy as np
 
-from cddd.inference import Deductor
-# DeductiveReasoning (old) unused now within this file, but kept import if needed elsewhere, 
-# though we are cleaning up logic. DFPC used Deductor.
+from cddd.inference import Deductor, DeductiveReasoning
 
 from cddd.independence import ci_test_factory
 
@@ -252,4 +250,3 @@ class HitonPC:
                             consets[pair_key] = cond_set
 
         return list(set(TPC)), sepsets, ci_number
-
