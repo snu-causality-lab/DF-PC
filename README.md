@@ -1,8 +1,6 @@
 # Don’t Test What You Can Deduce: Causal Discovery with Logical Inference
 
-This repository contains the official implementation for the paper **"Don’t Test What You Can Deduce: Causal Discovery with Logical Inference"** (Accepted to UAI 2026).
-
-The codebase is structured for reproducibility, clarity, and ease of experimentation.
+This repository contains the official implementation of [Don’t Test What You Can Deduce: Causal Discovery with Logical Inference](https://proceedings.mlr.press/v337/kim26a.html), by Jonghwan Kim and Sanghack Lee (UAI 2026).
 
 > **Note:** Our implementation and experiments focus on skeleton discovery; CPDAG orientation is not included in the released implementation.
 
@@ -10,23 +8,35 @@ The codebase is structured for reproducibility, clarity, and ease of experimenta
 
 ## 🛠️ Installation
 
-Use Python 3.11 in a dedicated environment, then install the supplied dependencies:
+Use Python 3.11. From a terminal, clone the repository and create a dedicated environment:
 
 ```bash
+git clone https://github.com/snu-causality-lab/DF-PC.git
+cd DF-PC
+python3.11 -m venv .venv
+source .venv/bin/activate
 python -m pip install -r requirements.txt
 ```
 
-The requirements pin `causal-learn==0.1.3.8`. Activate your environment before running the commands below.
+On Windows, activate with `.venv\Scripts\activate` instead; the batch launchers require Bash. Run the commands below from the repository root in the activated environment. The requirements retain `causal-learn==0.1.3.8` and the numerical-library version ranges used by the experiment code. Experiment 6 has [additional dependencies](#6-semi-synthetic-data-dependency).
 
 ## Using DF-PC and choosing the search mode
 
 `PCStable` implements both PC-stable and DF-PC. Pass `use_deduction=True` for DF-PC; the constructor's existing default `use_deduction=False` selects PC-stable.
 
-The following example uses the Fisher-Z partial-correlation tester, as in the linear-Gaussian experiments. Here `data` is a numeric array or DataFrame with samples in rows and variables in columns; categorical and nonlinear experiments use different testers in their scripts.
+This self-contained example generates a small linear-Gaussian dataset and uses the Fisher-Z partial-correlation tester. Input is a numeric array or DataFrame with samples in rows and variables in columns. Categorical and nonlinear experiments use different testers in their scripts.
 
 ```python
+import numpy as np
+
 from cddd.algorithms import PCStable
 from cddd.independence import PartialCorrelation
+
+rng = np.random.default_rng(42)
+x = rng.normal(size=1000)
+y = 0.8 * x + rng.normal(size=1000)
+z = 0.8 * y + rng.normal(size=1000)
+data = np.column_stack([x, y, z])
 
 tester = PartialCorrelation(data=data)
 runner = PCStable(
@@ -38,15 +48,17 @@ runner = PCStable(
     early_stopping=True,
 )
 skeleton, separating_sets = runner.run(data)
+print(skeleton)
+print(separating_sets)
 ```
 
-Create a fresh tester and runner for each dataset/run. The returned adjacency matrix is an undirected skeleton, not a CPDAG.
+The returned adjacency matrix is an undirected skeleton, not a CPDAG.
 
 Variable indices follow the input column order. For example, a `separating_sets` entry `{(0, 2): (1,)}` records that columns 0 and 2 were judged independent given column 1.
 
 | DF-PC mode | `deduction_pure` | `early_stopping` | Behavior |
 | --- | --- | --- | --- |
-| Paper/default | `True` | `True` | Pure logical deduction before a top-level CI fallback; stop the current conditioning-set search at the first independence. |
+| Paper DF-PC settings | `True` | `True` | Pure logical deduction before a top-level CI fallback; stop the current conditioning-set search at the first independence. |
 | No-break option | `True` | `False` | Process all eligible conditioning sets at each level, even after finding an independence. |
 | Recursive CI option | `False` | `True` | Keep early stopping, but allow recursive requests to perform missing lower-order CI tests. |
 
@@ -56,11 +68,29 @@ The paper's DF-PC mode remains pure deduction, dependence priority (`"dep"`), an
 
 In finite samples, early stopping can leave different lower-order CI histories for later deduction, so default DF-PC skeletons can depend on query order despite level-wise adjacency updates. No-break processes additional queries and can cost more CI tests and runtime. It does not guarantee better accuracy; separating-set selection and CPDAG orientation are not covered by a skeleton-order comparison. Changing `deduction_pure` is distinct from turning off early stopping.
 
+### Reusing a runner
+
+Each repeated call to `PCStable.run(data)` resets its deduction cache, counters,
+and provenance, and rebinds built-in CI testers to the supplied data with a fresh
+backend. This also handles data modified in place. For the first call, initialize
+a fresh statistical tester with the same data object you pass to `run`, as in the
+example above. That first call retains the preinitialized backend.
+
+Custom testers must implement `reset_for_data(data)` to support repeated calls.
+`CITester` provides this hook for its built-in state; subclasses with additional
+run-specific caches or counters must override it and call `super()`. Testers
+without this hook remain usable for one run. Experiment wrappers that override
+`run` are unchanged and continue to construct fresh objects for their trials.
+
+The reset is independent of `early_stopping`; both break and no-break support reuse. An `OracleCITester` remains tied to its supplied `true_graph`, so create a new oracle tester when the ground-truth graph changes. These runner guarantees apply to `PCStable`, not the legacy `HitonPC` class.
+
 ---
 
 ## 📊 Running Experiments
 
-Run the benchmark scripts from the repository root in the activated environment. They execute full experiment grids, not smoke tests, and write to `results/`; use a separate checkout or preserve existing outputs before rerunning. Several scripts use parallel workers (including all allocated/available CPUs), so check their settings before running on a shared machine.
+Run the benchmark scripts from the repository root in the activated environment. They execute full experiment grids, not smoke tests, and write to `results/`; use a separate checkout or preserve existing outputs before rerunning. Several scripts use parallel workers (including fixed counts of 24 or all allocated/available CPUs), so check their settings before running on a shared machine.
+
+The repository includes saved CSVs for regenerating tables and figures without rerunning the experiments. These are supplied result snapshots, not a guarantee that every timing or manuscript cell will reproduce exactly. Record the code commit and environment for new runs; runtime depends on hardware and concurrent load.
 
 ### 1. Core Benchmarks (Experiments 1–6)
 Individual scripts for the primary evaluations in the main paper:
@@ -89,6 +119,10 @@ Individual scripts for the primary evaluations in the main paper:
    ```bash
    python experiment_realworld.py
    ```
+
+#### 6. Semi-synthetic data dependency
+
+Before Experiment 6, install `python -m pip install -r requirements-realworld.txt`. It pins `pgmpy==0.1.25` for the Barley/Mildew example networks and includes the base dependencies. These are sampled from known Bayesian networks, not supplied observational datasets. The other experiments and the regression tests do not need this extra installation.
 
 #### Generate Main Paper Tables
 To consolidate and generate the LaTeX tables for the core experiments:
@@ -150,6 +184,10 @@ python generate_paper_plots.py
 ```
 Outputs are saved in `results/plots/` and `results/supplementary_tables.tex`.
 
+Both generators require their input CSVs and exit with an error for missing files or generation failures. These checks do not verify complete experiment-grid coverage. Input-loading failures do not replace existing tables; later plotting failures can leave partial outputs, so preserve any outputs you need before regeneration.
+
+Extended-result filenames `experiment_1_*` through `experiment_5_*` are legacy aliases for Experiments 7–11, not the core Experiments 1–5. Canonical descriptive filenames take precedence. The retained `results/supplementary_figures.tex` is a legacy figure-inclusion snippet; its old “logical deduction” wording for bypassed tests should be read using the cache-inclusive definition below.
+
 ### Reading the CI counts
 
 - `Requests`: primary CI queries requested by the skeleton search, including repeated requests.
@@ -163,9 +201,11 @@ The statistical PC baseline also has CI-backend caching. PC-versus-DF-PC test-co
 The small tests do not run the paper's experiment grids:
 
 ```bash
-python -m pip install pytest
+python -m pip install -r requirements-dev.txt
 python -m pytest tests
 ```
+
+GitHub Actions runs this suite with Python 3.11 and the base dependencies. It exercises the README example, runner reuse, search options, launchers and generation from copied saved results. It does not rerun the full experiment grids or install the optional Experiment 6 dependencies. The small Experiment 6 sampling tests run when those dependencies are installed and otherwise skip.
 
 ---
 
@@ -196,8 +236,32 @@ python -m pytest tests
 │   ├── plots/                          # High-resolution PDF and PNG figures
 │   ├── final_paper_tables.tex          # Consolidated main paper tables
 │   └── supplementary_tables.tex        # Supplementary tables
-├── tests/                             # Search-mode and launcher regressions
+├── tests/                             # Runner lifecycle, search-mode and release regressions
 ├── run_all_local.sh                    # Batch execution script (local workstation)
 ├── run_all_slurm.sh                    # SLURM batch execution script (cluster)
-└── requirements.txt                    # Environment dependencies
+├── requirements.txt                    # Base experiment and plotting dependencies
+├── requirements-realworld.txt          # Extra dependencies for Experiment 6
+└── requirements-dev.txt                # Base dependencies plus pytest
+```
+
+## License status
+
+Public-release licensing is pending; no repository-wide license has been added. The existing third-party notice in [cddd/independence.py](cddd/independence.py) is retained.
+
+## Citation
+
+Please cite the [published paper](https://proceedings.mlr.press/v337/kim26a.html) when using DF-PC:
+
+```bibtex
+@inproceedings{pmlr-v337-kim26a,
+  title = {Don't Test What You Can Deduce: Causal Discovery with Logical Inference},
+  author = {Kim, Jonghwan and Lee, Sanghack},
+  booktitle = {Proceedings of the 42nd Conference on Uncertainty in Artificial Intelligence},
+  pages = {2958--2993},
+  year = {2026},
+  volume = {337},
+  series = {Proceedings of Machine Learning Research},
+  publisher = {PMLR},
+  url = {https://proceedings.mlr.press/v337/kim26a.html}
+}
 ```

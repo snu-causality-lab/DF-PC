@@ -232,37 +232,28 @@ def gen_realworld(df_rw, out):
         if ds == 'barley': out.append(r"\midrule")
     out.append(r"\bottomrule\end{tabular}\end{adjustbox}\end{table*}" + "\n")
 
+def read_results(path):
+    df = pd.read_csv(path)
+    if df.empty:
+        raise ValueError(f"No result rows in {path}")
+    return df
+
+
 def main():
     res_dir = Path("results")
     out_file = res_dir / "final_paper_tables.tex"
     out = [r"% Generated LaTeX Tables for DF-PC Paper", r"\newcommand{\stdv}[1]{\scriptsize{$\pm$#1}}", ""]
     
-    # 1. Synthetic
-    try:
-        df_syn = pd.read_csv(res_dir / "synthetic_benchmarks_summary.csv")
-        gen_synthetic_benchmarks(df_syn, out)
-        gen_synthetic_efficiency(df_syn, out)
-    except Exception as e: out.append(f"% Error Experiment 1: {e}")
-    
-    # 2. Nonlinear
-    try: gen_nonlinear(pd.read_csv(res_dir / "experiment_nonlinear_summary.csv"), out)
-    except Exception as e: out.append(f"% Error Experiment 2: {e}")
-    
-    # 3. Extreme
-    try: gen_extreme_cases(pd.read_csv(res_dir / "experiment_extreme_cases.csv"), out)
-    except Exception as e: out.append(f"% Error Experiment 3: {e}")
-    
-    # 4. Alpha
-    try: gen_alpha_sensitivity(pd.read_csv(res_dir / "experiment_alpha_sensitivity.csv"), out)
-    except Exception as e: out.append(f"% Error Experiment 4: {e}")
-    
-    # 5. Scalability
-    try: gen_scalability(pd.read_csv(res_dir / "experiment_scalability_summary.csv"), out)
-    except Exception as e: out.append(f"% Error Experiment 5: {e}")
-    
-    # 6. Real-World
-    try: gen_realworld(pd.read_csv(res_dir / "experiment_realworld_summary.csv"), out)
-    except Exception as e: out.append(f"% Error Experiment 6: {e}")
+    # Build every table before opening the output: failed input must not replace
+    # existing tables or be reported as a successful full generation.
+    df_syn = read_results(res_dir / "synthetic_benchmarks_summary.csv")
+    gen_synthetic_benchmarks(df_syn, out)
+    gen_synthetic_efficiency(df_syn, out)
+    gen_nonlinear(read_results(res_dir / "experiment_nonlinear_summary.csv"), out)
+    gen_extreme_cases(read_results(res_dir / "experiment_extreme_cases.csv"), out)
+    gen_alpha_sensitivity(read_results(res_dir / "experiment_alpha_sensitivity.csv"), out)
+    gen_scalability(read_results(res_dir / "experiment_scalability_summary.csv"), out)
+    gen_realworld(read_results(res_dir / "experiment_realworld_summary.csv"), out)
     
     with open(out_file, "w") as f:
         f.write("\n".join(out))

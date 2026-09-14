@@ -95,6 +95,14 @@ class Deductor:
         self._current_root_query = None
         self.cit_provenance = {}
 
+    def reset(self):
+        """Discard run-specific state while preserving deduction settings."""
+        self.cache.clear()
+        for name in self.stats:
+            self.stats[name] = 0
+        self.cit_provenance.clear()
+        self._current_root_query = None
+
     def _get_cache_key(self, X, Y, Z):
         return (tuple(sorted((X, Y))), tuple(sorted(Z)))
 

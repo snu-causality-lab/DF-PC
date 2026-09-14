@@ -34,6 +34,18 @@ class CITester:
         self.total_test_time = 0.0
         self.history = set()
 
+    def reset_for_data(self, data):
+        """Start a new run, discarding statistics and dataset-derived state.
+
+        Rebuild data-bound backends even when the same input object is reused:
+        its contents may have changed in place. Subclasses with additional
+        run-specific caches or counters must override this hook and call super().
+        """
+        self.reset_stats()
+        set_data = getattr(self, '_set_data', None)
+        if callable(set_data):
+            set_data(data)
+
     def ci_test(self, data, X, Y, cond_set=frozenset()):
         """
         Public interface for CI testing. 

@@ -1,0 +1,3 @@
+# Additional dependencies for Experiment 6 (Barley and Mildew).
+-r requirements.txt
+pgmpy==0.1.25

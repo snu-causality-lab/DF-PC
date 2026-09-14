@@ -10,9 +10,7 @@ warnings.filterwarnings('ignore')
 
 results_dir = Path("results")
 plots_dir = results_dir / "plots"
-plots_dir.mkdir(parents=True, exist_ok=True)
 tex_path = results_dir / "supplementary_tables.tex"
-tex_file = open(tex_path, "w")
 
 # Style setup for premium publication look (aligned with main text plots)
 mpl.rcParams.update({
@@ -46,7 +44,7 @@ def rename_algo(df):
     df['Algo'] = df['Algo'].replace('Standard PC', 'PC-stable')
     return df
 
-def write_latex(df, title):
+def write_latex(tex_file, df, title):
     tex_file.write(f"\\subsection*{{{title}}}\n")
     tex_file.write(df.to_latex(index=True, float_format="%.3f"))
     tex_file.write("\n\n")
@@ -79,20 +77,59 @@ def find_csv(canonical_name, fallback_name):
     p2 = results_dir / fallback_name
     if p2.exists():
         return p2
-    return None
+    raise FileNotFoundError(f"Missing required CSV: {p1} (or legacy name {p2})")
 
-# =========================================================================
-# Exp 7: Baseline Comparison (DF-PC vs PC-stable vs Deduce-Dep)
-# =========================================================================
-f_sum = find_csv("experiment_baseline_comparison_summary.csv", "experiment_1_summary.csv")
-f_raw = find_csv("experiment_baseline_comparison_raw.csv", "experiment_1_raw.csv")
+def load_results():
+    """Read and check all required CSVs before opening any generated output."""
+    specs = [
+        ("baseline_comparison",
+         "Algo Data F1_mean SHD_mean Bypassed_CITs_mean",
+         "Graph Data Algo F1 Performed_CITs"),
+        ("high_density",
+         "Algo Data F1_mean SHD_mean Bypassed_CITs_mean",
+         "Graph Data Algo F1 Performed_CITs"),
+        ("runtime_scaling",
+         "Setup Algo Time_Total_mean Bypassed_CITs_mean F1_mean",
+         "Setup Graph Algo Nodes Deg Time_Total"),
+        ("oracle_saved_cits",
+         "Setup Z_Size Requested_mean Performed_mean Bypassed_mean",
+         "Setup Nodes Deg Z_Size Requested_CITs Performed_CITs Bypassed_CITs"),
+        ("noise_robustness",
+         "ErrorRate Algo F1_mean SHD_mean",
+         "ErrorRate Algo F1"),
+    ]
+    frames = []
+    labels = {"Algo", "Data", "Graph", "Setup"}
+    for legacy_id, (stem, summary_columns, raw_columns) in enumerate(specs, 1):
+        pair = []
+        for kind, columns in (("summary", summary_columns), ("raw", raw_columns)):
+            path = find_csv(f"experiment_{stem}_{kind}.csv",
+                            f"experiment_{legacy_id}_{kind}.csv")
+            df = pd.read_csv(path)
+            required = set(columns.split())
+            missing = required - set(df.columns)
+            if missing:
+                raise ValueError(f"Missing columns in {path}: {', '.join(sorted(missing))}")
+            if df.empty:
+                raise ValueError(f"No result rows in {path}")
+            if df[list(required)].isna().any().any():
+                raise ValueError(f"Missing result values in {path}")
+            for column in required - labels:
+                pd.to_numeric(df[column], errors="raise")
+            pair.append(df)
+        frames.append(tuple(pair))
+    return frames
 
-if f_sum and f_raw:
-    df1_sum = pd.read_csv(f_sum)
-    df1_raw = pd.read_csv(f_raw)
+
+def generate_plots(frames, tex_file):
+    # =========================================================================
+    # Exp 7: Baseline Comparison (DF-PC vs PC-stable vs Deduce-Dep)
+    # =========================================================================
+
+    df1_sum, df1_raw = frames[0]
     rename_algo(df1_sum); rename_algo(df1_raw)
     
-    write_latex(df1_sum.groupby(['Algo', 'Data'])[['F1_mean', 'SHD_mean', 'Bypassed_CITs_mean']].mean(), "Experiment 7: Baseline Comparison")
+    write_latex(tex_file, df1_sum.groupby(['Algo', 'Data'])[['F1_mean', 'SHD_mean', 'Bypassed_CITs_mean']].mean(), "Experiment 7: Baseline Comparison")
  
     def plot_2x2(df_raw, metric, ylabel, filename_base):
         graphs = ['er', 'sf']
@@ -117,18 +154,14 @@ if f_sum and f_raw:
     plot_2x2(df1_raw, 'F1', 'F1 Score', "exp7_f1")
     plot_2x2(df1_raw, 'Performed_CITs', 'Performed CITs', "exp7_performed_cits")
 
-# =========================================================================
-# Exp 8: High Density Regime (D=6)
-# =========================================================================
-f_sum = find_csv("experiment_high_density_summary.csv", "experiment_2_summary.csv")
-f_raw = find_csv("experiment_high_density_raw.csv", "experiment_2_raw.csv")
+    # =========================================================================
+    # Exp 8: High Density Regime (D=6)
+    # =========================================================================
 
-if f_sum and f_raw:
-    df2_sum = pd.read_csv(f_sum)
-    df2_raw = pd.read_csv(f_raw)
+    df2_sum, df2_raw = frames[1]
     rename_algo(df2_sum); rename_algo(df2_raw)
     
-    write_latex(df2_sum.groupby(['Algo', 'Data'])[['F1_mean', 'SHD_mean', 'Bypassed_CITs_mean']].mean(), "Experiment 8: High Density (=6)")
+    write_latex(tex_file, df2_sum.groupby(['Algo', 'Data'])[['F1_mean', 'SHD_mean', 'Bypassed_CITs_mean']].mean(), "Experiment 8: High Density (=6)")
 
     def plot_2x2(df_raw, metric, ylabel, filename_base):
         graphs = ['er', 'sf']
@@ -153,18 +186,14 @@ if f_sum and f_raw:
     plot_2x2(df2_raw, 'F1', 'F1 Score', "exp8_f1")
     plot_2x2(df2_raw, 'Performed_CITs', 'Performed CITs', "exp8_performed_cits")
 
-# =========================================================================
-# Exp 9: Runtime Scaling across Nodes & Density
-# =========================================================================
-f_sum = find_csv("experiment_runtime_scaling_summary.csv", "experiment_3_summary.csv")
-f_raw = find_csv("experiment_runtime_scaling_raw.csv", "experiment_3_raw.csv")
+    # =========================================================================
+    # Exp 9: Runtime Scaling across Nodes & Density
+    # =========================================================================
 
-if f_sum and f_raw:
-    df3_sum = pd.read_csv(f_sum)
-    df3_raw = pd.read_csv(f_raw)
+    df3_sum, df3_raw = frames[2]
     rename_algo(df3_sum); rename_algo(df3_raw)
     
-    write_latex(df3_sum.groupby(['Setup', 'Algo'])[['Time_Total_mean', 'Bypassed_CITs_mean', 'F1_mean']].mean(), "Experiment 9: Runtime Scaling")
+    write_latex(tex_file, df3_sum.groupby(['Setup', 'Algo'])[['Time_Total_mean', 'Bypassed_CITs_mean', 'F1_mean']].mean(), "Experiment 9: Runtime Scaling")
 
     # Setup A: Node Scaling
     df3_nodes = df3_raw[df3_raw['Setup'] == 'SetupA_NodeScaling']
@@ -216,24 +245,18 @@ if f_sum and f_raw:
     save_plots(fig, "exp9_runtime_density")
     plt.close('all')
 
-# =========================================================================
-# Exp 10: Oracle Saved CITs Breakdown by |Z|
-# =========================================================================
-f_sum = find_csv("experiment_oracle_saved_cits_summary.csv", "experiment_4_summary.csv")
-f_raw = find_csv("experiment_oracle_saved_cits_raw.csv", "experiment_4_raw.csv")
+    # =========================================================================
+    # Exp 10: Oracle Saved CITs Breakdown by |Z|
+    # =========================================================================
 
-if f_sum and f_raw:
-    df4_sum = pd.read_csv(f_sum)
-    df4_raw = pd.read_csv(f_raw)
+    df4_sum, df4_raw = frames[3]
     
-    write_latex(df4_sum.groupby(['Setup', 'Z_Size'])[['Requested_mean', 'Performed_mean', 'Bypassed_mean']].mean(), "Experiment 10: Oracle Saved CITs by |Z|")
+    write_latex(tex_file, df4_sum.groupby(['Setup', 'Z_Size'])[['Requested_mean', 'Performed_mean', 'Bypassed_mean']].mean(), "Experiment 10: Oracle Saved CITs by |Z|")
 
     def plot_exp4_faceted(df_raw_setup, facet_col, facet_vals, filename_base):
         df_f = df_raw_setup[(df_raw_setup['Z_Size'] > 0) & (df_raw_setup['Z_Size'] <= 8)].copy()
         n_facets = len(facet_vals)
-        fig, axes = plt.subplots(1, n_facets, figsize=(3.8 * n_facets, 3.2))
-        if n_facets == 1:
-            axes = [axes]
+        fig, axes = plt.subplots(1, n_facets, figsize=(3.8 * n_facets, 3.2), squeeze=False)
         axes_flat = axes.flatten()
         
         c_req = "#bdbdbd"
@@ -272,18 +295,14 @@ if f_sum and f_raw:
     deg_vals = sorted(df4_B['Deg'].unique())
     plot_exp4_faceted(df4_B, 'Deg', deg_vals, "exp10_save_CIT_density")
 
-# =========================================================================
-# Exp 11: Algorithmic Resilience to CIT Errors
-# =========================================================================
-f_sum = find_csv("experiment_noise_robustness_summary.csv", "experiment_5_summary.csv")
-f_raw = find_csv("experiment_noise_robustness_raw.csv", "experiment_5_raw.csv")
+    # =========================================================================
+    # Exp 11: Algorithmic Resilience to CIT Errors
+    # =========================================================================
 
-if f_sum and f_raw:
-    df5_sum = pd.read_csv(f_sum)
-    df5_raw = pd.read_csv(f_raw)
+    df5_sum, df5_raw = frames[4]
     rename_algo(df5_sum); rename_algo(df5_raw)
     
-    write_latex(df5_sum.groupby(['ErrorRate', 'Algo'])[['F1_mean', 'SHD_mean']].mean(), "Experiment 11: Robustness against Low-order CIT Error")
+    write_latex(tex_file, df5_sum.groupby(['ErrorRate', 'Algo'])[['F1_mean', 'SHD_mean']].mean(), "Experiment 11: Robustness against Low-order CIT Error")
 
     fig, ax = plt.subplots(figsize=(4.5, 3.5))
     for algo in ['PC-stable', 'PC with deduce-dep', 'DF-PC']:
@@ -302,5 +321,16 @@ if f_sum and f_raw:
     save_plots(fig, "exp11_robustness")
     plt.close()
 
-tex_file.close()
-print("Plots generated successfully in results/plots/ and LaTeX tables saved to results/supplementary_tables.tex.")
+
+def main():
+    frames = load_results()
+    plots_dir.mkdir(parents=True, exist_ok=True)
+    # A plotting/backend failure can leave partial figures, but propagates as a
+    # failed command. CSV presence and schemas are checked before writing.
+    with tex_path.open("w") as tex_file:
+        generate_plots(frames, tex_file)
+    print("Plots generated successfully in results/plots/ and LaTeX tables saved to results/supplementary_tables.tex.")
+
+
+if __name__ == "__main__":
+    main()

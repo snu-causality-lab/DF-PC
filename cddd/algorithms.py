@@ -5,9 +5,7 @@ from typing import List, Dict, Tuple, Set, Union, Optional
 import networkx as nx
 import numpy as np
 
-from cddd.inference import Deductor
-# DeductiveReasoning (old) unused now within this file, but kept import if needed elsewhere, 
-# though we are cleaning up logic. DFPC used Deductor.
+from cddd.inference import Deductor, DeductiveReasoning
 
 from cddd.independence import ci_test_factory
 
@@ -44,6 +42,7 @@ class PCStable:
             
         # Metric tracking
         self.total_pc_requests = 0
+        self._has_run = False
 
     def run(self, data: 'pd.DataFrame') -> Tuple[np.ndarray, Dict]:
         '''
@@ -55,7 +54,24 @@ class PCStable:
         Returns:
             adj_mat: Estimated adjacency matrix (numpy array).
             sepsets: Dictionary of separating sets.
+
+        Repeated calls reset run-specific state. Custom CI testers must provide
+        reset_for_data(data) to support reuse of this runner.
         '''
+        if self._has_run:
+            reset_tester = getattr(self.ci_tester, 'reset_for_data', None)
+            if not callable(reset_tester):
+                raise TypeError(
+                    "Reusing PCStable requires a CI tester with "
+                    "reset_for_data(data); otherwise create a fresh tester "
+                    "and runner for each run."
+                )
+            reset_tester(data)
+            if self.deductor is not None:
+                self.deductor.reset()
+        # Mark attempts too, so an interrupted run cannot leave reusable state.
+        # Preserve the first-run path, including caller-initialized CI backends.
+        self._has_run = True
         self.total_pc_requests = 0
         
         _, num_of_variables = np.shape(data)
@@ -234,4 +250,3 @@ class HitonPC:
                             consets[pair_key] = cond_set
 
         return list(set(TPC)), sepsets, ci_number
-
