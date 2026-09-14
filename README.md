@@ -4,13 +4,57 @@ This repository contains the official implementation for the paper **"Don’t Te
 
 The codebase is structured for reproducibility, clarity, and ease of experimentation.
 
+> **Note:** Our implementation and experiments focus on skeleton discovery; CPDAG orientation is not included in the released implementation.
+
 ---
 
 ## 🛠️ Installation
 
+Use Python 3.11 in a dedicated environment, then install the supplied dependencies:
+
 ```bash
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
+
+The requirements pin `causal-learn==0.1.3.8`. Activate your environment before running the commands below.
+
+## Using DF-PC and choosing the search mode
+
+`PCStable` implements both PC-stable and DF-PC. Pass `use_deduction=True` for DF-PC; the constructor's existing default `use_deduction=False` selects PC-stable.
+
+The following example uses the Fisher-Z partial-correlation tester, as in the linear-Gaussian experiments. Here `data` is a numeric array or DataFrame with samples in rows and variables in columns; categorical and nonlinear experiments use different testers in their scripts.
+
+```python
+from cddd.algorithms import PCStable
+from cddd.independence import PartialCorrelation
+
+tester = PartialCorrelation(data=data)
+runner = PCStable(
+    alpha=0.01,
+    ci_tester=tester,
+    use_deduction=True,
+    deduction_priority="dep",
+    deduction_pure=True,
+    early_stopping=True,
+)
+skeleton, separating_sets = runner.run(data)
+```
+
+The returned adjacency matrix is an undirected skeleton, not a CPDAG.
+
+Variable indices follow the input column order. For example, a `separating_sets` entry `{(0, 2): (1,)}` records that columns 0 and 2 were judged independent given column 1.
+
+| DF-PC mode | `deduction_pure` | `early_stopping` | Behavior |
+| --- | --- | --- | --- |
+| Paper/default | `True` | `True` | Pure logical deduction before a top-level CI fallback; stop the current conditioning-set search at the first independence. |
+| No-break option | `True` | `False` | Process all eligible conditioning sets at each level, even after finding an independence. |
+| Recursive CI option | `False` | `True` | Keep early stopping, but allow recursive requests to perform missing lower-order CI tests. |
+
+`early_stopping` also applies to PC-stable (`use_deduction=False`). In either mode, edge removals occur at the end of the level. No-break retains the existing separator-recording rule: the last recorded independence for a pair supplies its separating set. It does not preserve all separating sets.
+
+The paper's DF-PC mode remains pure deduction, dependence priority (`"dep"`), and early stopping. The experiment scripts retain their original settings; the new option is available through the core Python API, not a new command-line switch for every experiment wrapper.
+
+In finite samples, early stopping can leave different lower-order CI histories for later deduction, so default DF-PC skeletons can depend on query order despite level-wise adjacency updates. No-break processes additional queries and can cost more CI tests and runtime. It does not guarantee better accuracy; separating-set selection and CPDAG orientation are not covered by a skeleton-order comparison. Changing `deduction_pure` is distinct from turning off early stopping.
 
 ### Reusing a runner
 
@@ -25,17 +69,11 @@ run-specific caches or counters must override it and call `super()`. Testers
 without this hook remain usable for one run. Experiment wrappers that override
 `run` are unchanged and continue to construct fresh objects for their trials.
 
-Run the lightweight regression tests with:
-
-```bash
-python -m unittest discover -s tests -v
-```
-
 ---
 
 ## 📊 Running Experiments
 
-All benchmark experiments are runnable directly from the root directory.
+Run the benchmark scripts from the repository root in the activated environment. They execute full experiment grids, not smoke tests, and write to `results/`; use a separate checkout or preserve existing outputs before rerunning. Several scripts use parallel workers (including all allocated/available CPUs), so check their settings before running on a shared machine.
 
 ### 1. Core Benchmarks (Experiments 1–6)
 Individual scripts for the primary evaluations in the main paper:
@@ -99,19 +137,48 @@ Individual scripts for supplementary and extended evaluations:
     ```
 
 #### Batch Execution
-To run all extended experiments sequentially:
+To run Experiments 7–11 and their plotting step sequentially in your activated environment:
+
 ```bash
 bash run_all_local.sh
-# Or submit via SLURM:
-sbatch run_all_slurm.sh
 ```
+
+The local launcher resolves the repository directory and stops on the first failed command. It defaults BLAS thread counts to one without overriding explicit local settings. `DFPC_PYTHON` can select a particular Python executable; it must be a single executable name or path, not a command with arguments.
+
+`run_all_slurm.sh` is a CPU-only Slurm example. Set these values for **your own cluster** before submission; the project and environment must be accessible on the compute nodes. The conda environment is activated inside the job.
+
+```bash
+export DFPC_PROJECT_DIR="/absolute/nfs/path/to/DF-PC"
+export DFPC_CONDA_SH="/absolute/nfs/path/to/miniforge3/etc/profile.d/conda.sh"
+export DFPC_CONDA_ENV="your-dfpc-environment"
+sbatch --chdir="/absolute/nfs/path/to/DF-PC" run_all_slurm.sh
+```
+
+Use the same literal project path for `--chdir` and `DFPC_PROJECT_DIR`; shell variables in `#SBATCH` directives are not expanded. Adjust the example's partition and CPU allocation to your cluster. The job requires a valid allocation, uses `SLURM_CPUS_PER_TASK` for the experiments' parallel workers, and sets each worker's BLAS thread count to one. Leave `DFPC_PYTHON` unset to use the activated conda environment's Python, or explicitly select a compatible interpreter. Neither launcher changes the paper's algorithm settings.
 
 #### Generate Supplementary Figures & Tables
 To generate publication-ready plots (PDF & PNG) and LaTeX tables for extended benchmarks:
 ```bash
 python generate_paper_plots.py
 ```
-Outputs are saved in `results/plots/`, `results/supplementary_tables.tex`, and `results/supplementary_figures.tex`.
+Outputs are saved in `results/plots/` and `results/supplementary_tables.tex`.
+
+### Reading the CI counts
+
+- `Requests`: primary CI queries requested by the skeleton search, including repeated requests.
+- `Actual_CIT` / `Performed_CITs`: the statistical testers' count of distinct tested queries. The experiment-specific oracle testers in Experiments 10–11 instead count calls to their oracle.
+- `Bypassed_CITs`: requests minus the reported performed count in the supplied pure-mode experiments. This includes cache reuse as well as deduction; it is not a count of newly applied logical inferences.
+
+The statistical PC baseline also has CI-backend caching. PC-versus-DF-PC test-count differences measure the overall algorithm effect, not an isolated deduction-only effect. For recursive-CI variants, helper-internal tests must be counted separately; the same subtraction is not a general measure of top-level deductions. Fewer CI tests need not imply lower runtime or better accuracy.
+
+## Regression tests
+
+The small tests do not run the paper's experiment grids:
+
+```bash
+python -m pip install pytest
+python -m pytest tests
+```
 
 ---
 
@@ -141,8 +208,8 @@ Outputs are saved in `results/plots/`, `results/supplementary_tables.tex`, and `
 │   ├── *.csv                           # Raw data and summary metrics
 │   ├── plots/                          # High-resolution PDF and PNG figures
 │   ├── final_paper_tables.tex          # Consolidated main paper tables
-│   ├── supplementary_tables.tex        # Supplementary tables
-│   └── supplementary_figures.tex       # Supplementary figure snippets
+│   └── supplementary_tables.tex        # Supplementary tables
+├── tests/                             # Search-mode and launcher regressions
 ├── run_all_local.sh                    # Batch execution script (local workstation)
 ├── run_all_slurm.sh                    # SLURM batch execution script (cluster)
 └── requirements.txt                    # Environment dependencies
